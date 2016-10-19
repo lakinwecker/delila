@@ -6,9 +6,9 @@ This is a project with lofty goals. I may never get there, but I'm sure going to
 
 1. Replace the need for Chesstempo, Chessable, SCID, and Chessbase reader.
 2. Build a better chess engine designed to aid in learning.
-..* Should be faster than stockfish at finding and identifying tactical puzzles.
-..* Doesn't care about elo
-..* Must be able to identify motifs
+    - Should be faster than stockfish at finding and identifying tactical puzzles.
+    - Doesn't care about elo
+    - Must be able to identify motifs
 3. Get much (most?) of it integrated into lichess in some fashion.
 
 ## Features
