@@ -4,7 +4,7 @@ This is a project with many goals. I may never get them all, but I'm sure going 
 
 ## Goals
 
-1. Replace the need for Chesstempo, Chessable, SCID, and Chessbase reader.
+1. Completely Replace the need for Chessabse, SCID, Chessable, Chess position trainer and Chesstempo.
 2. Build a better chess engine designed to aid in learning.
     - Should be faster than stockfish at finding and identifying teachable positions (tactical puzzles, positional motifs)
     - elo is a secondary goal
