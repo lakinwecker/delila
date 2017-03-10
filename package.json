@@ -1,0 +1,31 @@
+{
+  "name": "delila",
+  "version": "0.0.1",
+  "description": "A chess user interface intended for study, database creation, browsing and querying.",
+  "main": "index.js",
+  "dependencies": {
+    "chessground": "^6.4.14",
+    "elm": "^0.18.0",
+    "snabbdom": "^0.6.5",
+    "typescript": "^2.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lakinwecker/delila.git"
+  },
+  "keywords": [
+    "chess",
+    "ui"
+  ],
+  "author": "Lakin Wecker <lakin@wecker.ca>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/lakinwecker/delila/issues"
+  },
+  "homepage": "https://github.com/lakinwecker/delila#readme"
+}
+
