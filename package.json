@@ -11,7 +11,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "elm-live src/*.elm --open --pushstate --output dist/bundle.js --debug",
+    "test": "elm-test"
+
   },
   "repository": {
     "type": "git",
