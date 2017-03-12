@@ -1,0 +1,8 @@
+{
+  "extends": "./node_modules/tweed-typescript-config/config",
+  "compilerOptions": {},
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
+}
