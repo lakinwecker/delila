@@ -27,9 +27,13 @@ module.exports = {
       })
     },
     {
-        test: /\.tsx?$/,
-        loader: 'awesome-typescript-loader',
-        exclude: /node_modules/
+      test: /\.tsx?$/,
+      loader: 'awesome-typescript-loader',
+      exclude: /node_modules/
+    },
+    {
+      test: /\.(eot|svg|ttf|woff|woff2|otf)$/,
+      loader: 'file?name=public/fonts/[name].[ext]'
     }]
   },
   resolve: {
@@ -38,7 +42,8 @@ module.exports = {
       '.js',
       '.ts',
       '.tsx',
-      '.jsx'
+      '.jsx',
+      '.scss'
     ]
   },
   devtool: 'source-map',

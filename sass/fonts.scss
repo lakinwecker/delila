@@ -1,0 +1,34 @@
+/* Bitter Font Declaratons */
+@font-face {
+    font-family: "Bitter";
+    src: url("./fonts/Bitter-Italic.otf");
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Bitter";
+    src: url("./fonts/Bitter-Bold.otf");
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Bitter";
+    src: url("./fonts/Bitter-BoldItalic.otf");
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Bitter";
+    src: url("./fonts/Bitter-Regular.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Dual Declaratons */
+@font-face {
+    font-family: "Dual";
+    src: url("./fonts/Dual-300.otf"), url("./fonts/Dual-300.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+

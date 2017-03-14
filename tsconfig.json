@@ -1,8 +1,24 @@
 {
   "extends": "./node_modules/tweed-typescript-config/config",
-  "compilerOptions": {},
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "es2015",
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": false,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "noUnusedParameters": true
+  },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "plugins",
+    "platforms",
+    "scripts"
   ]
 }

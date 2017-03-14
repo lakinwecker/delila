@@ -2,18 +2,52 @@
   "name": "delila",
   "version": "0.0.1",
   "description": "A chess user interface intended for study, database creation, browsing and querying.",
-  "main": "index.js",
-  "dependencies": {
-    "chessground": "^6.4.14",
-    "elm": "^0.18.0",
-    "snabbdom": "^0.6.5",
-    "typescript": "^2.2.1"
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
   },
-  "devDependencies": {},
   "scripts": {
-    "watch": "elm-live src/*.elm --open --pushstate --output dist/bundle.js --debug",
-    "test": "elm-test"
-
+    "watch": "tsc --watch",
+    "build": "NODE_ENV=production webpack",
+    "dev": "webpack-dev-server --inline --hot --no-info --content-base public/",
+    "test": "standardts && jest",
+    "testnocache": "standardts && jest"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "babel-runtime": "^6.23.0",
+    "bulma": "^0.3.2",
+    "chessground": "^6.4.14",
+    "jest-cli": "^19.0.2",
+    "tweed": "^0.4.0",
+    "tweed-router": "^0.4.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^19.2.1",
+    "awesome-typescript-loader": "^3.1.2",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.4.0",
+    "css-loader": "^0.27.2",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "jest": "^19.0.2",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.3",
+    "source-map-loader": "^0.2.0",
+    "standardts": "^1.0.0",
+    "style-loader": "^0.13.2",
+    "ts-jest": "^19.0.0",
+    "tweed-babel-config": "^0.4.0",
+    "tweed-typescript-config": "^0.4.0",
+    "typescript": "^2.2.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
   },
   "repository": {
     "type": "git",
@@ -30,4 +64,3 @@
   },
   "homepage": "https://github.com/lakinwecker/delila#readme"
 }
-

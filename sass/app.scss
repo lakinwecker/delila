@@ -1,0 +1,16 @@
+@import 'fonts';
+// Override variables here
+// You can add new ones or update existing ones:
+
+$blue: #72d0eb; // Update blue
+$pink: #ffb3b3; // Add pink
+$family-serif: "Bitter", serif; // Add a serif family
+$family-sans-serif: "Dual", serif; // Add a sans-serif family
+
+// Override generated variables here
+// For example, by default, the $danger color is $red and the font is sans-serif
+// You can change these values:
+
+$family-primary: $family-sans-serif; // Use the new serif family
+
+@import "bulma";
