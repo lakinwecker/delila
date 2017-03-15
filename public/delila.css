@@ -4060,4 +4060,10 @@ label.panel-block {
   #study reader board {
     /* TODO: Make this always square. */ }
 
+.nav-item.delila {
+  font-variant: small-caps;
+  font-size: 2rem;
+  font-weight: bold;
+  color: black; }
+
 /*# sourceMappingURL=delila.css.map */
