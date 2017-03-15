@@ -4,7 +4,7 @@ import { Router } from 'tweed-router'
 import BrowserRouter from 'tweed-router/browser'
 
 import { ReaderGamePage } from './ReaderGamePage'
- 
+
 const routes = {
     '/': (router: Router) => new ReaderGamePage(router),
     //'/': (router: Router) => new HomePage(router),

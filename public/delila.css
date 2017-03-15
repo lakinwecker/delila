@@ -4055,4 +4055,9 @@ label.panel-block {
   background-color: whitesmoke;
   padding: 3rem 1.5rem 6rem; }
 
+#study reader {
+  display: flex-box; }
+  #study reader board {
+    /* TODO: Make this always square. */ }
+
 /*# sourceMappingURL=delila.css.map */
