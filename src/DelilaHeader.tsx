@@ -14,7 +14,7 @@ export class DelilaHeader implements Renderer {
       <header>
         <nav class="nav">
           <div class="nav-left">
-            <a class="nav-item delila">Delila</a>
+            <h1 class="delila title is-3">Delila</h1>
           </div>
 
           <div class="nav-right nav-menu">
