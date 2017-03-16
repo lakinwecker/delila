@@ -2,16 +2,17 @@ import { Node } from 'tweed'
 import { Renderer } from './types'
 import { Router } from 'tweed-router'
 import { DelilaHeader } from './DelilaHeader'
+import { DelilaFooter } from './DelilaFooter'
 
 export class Page implements Renderer {
-  protected header?: Renderer = undefined;
-  protected footer?: Renderer = undefined;
+  protected header: Renderer;
+  protected footer: Renderer;
   protected router: Router;
 
   constructor (router: Router) {
     this.router = router
     this.header = new DelilaHeader(router);
-    this.footer = undefined;
+    this.footer = new DelilaFooter(router);
   }
 
   render_page(): Node {
