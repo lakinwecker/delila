@@ -6,22 +6,22 @@ import { ReaderMoveList } from './ReaderMoveList'
 import { ReaderGameControls } from './ReaderGameControls'
 
 export class ReaderGamePage extends Page {
-  private pgn_file = '';
+  private pgnFile = '';
   private board = new ChessgroundWidget();
-  private move_list = new ReaderMoveList();
-  private game_controls = new ReaderGameControls();
+  private moveList = new ReaderMoveList();
+  private gameControls = new ReaderGameControls();
 
   constructor (router: Router) {
     super(router);
   }
 
-  render_page (): Node {
-    if (this.pgn_file) {
+  renderPage (): Node {
+    if (!this.pgnFile) {
       return (
         <reader>
           {this.board}
-          {this.move_list}
-          {this.game_controls}
+          {this.moveList}
+          {this.gameControls}
         </reader>
       )
     } else {

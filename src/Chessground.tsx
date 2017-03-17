@@ -10,12 +10,12 @@ export class ChessgroundWidget implements Renderer {
   }
 
   render (): Node {
-    let cg_node = document.createElement('div');
-    cg_node.innerText = "Reader";
-    this.cg = Chessground(cg_node, {});
+    let cgNode = document.createElement('div');
+    cgNode.innerText = "Reader";
+    this.cg = Chessground(cgNode, {});
     return (
       <chessground>
-        <div>{cg_node}</div>
+        <div>{cgNode}</div>
       </chessground>
     )
   }
