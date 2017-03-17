@@ -4066,4 +4066,11 @@ header .delila {
   font-weight: bold;
   color: black; }
 
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 2px; }
+
 /*# sourceMappingURL=delila.css.map */

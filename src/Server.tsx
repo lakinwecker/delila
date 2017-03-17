@@ -88,8 +88,8 @@ export class Server implements Renderer {
 
     }
     return (
-      <a class="level-item" on-click="{this.ensure_running}">
-        <i class={classes} />
+      <a class="level-item" on-click={this.ensure_running.bind(this)}>
+        <i class={classes} />&nbsp;
         <span> {text}</span>
       </a>
     )

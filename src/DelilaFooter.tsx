@@ -15,11 +15,9 @@ export class DelilaFooter implements Renderer {
   render (): Node {
     return (
       <footer>
-        <div class="level">
-          <div class="level-left">
-            {this.server}
-          </div>
-        </div>
+        <connection>
+          {this.server}
+        </connection>
       </footer>
     )
   }
