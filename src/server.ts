@@ -1,5 +1,6 @@
 import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
+import { Observable } from 'kaiju/observable'
 
 
 // Define our Connection States as a union type with convenience constants.
@@ -23,13 +24,12 @@ interface State {
   url: string,
 	state: ConnectionState,
   timeout: number,
-  timeToRetry?: number,
-  timeoutId?: number
+  timeToRetry: number,
   ws?: WebSocket,
 }
  
 function initState(initProps: Props) {
-	return { url: initProps.url, state: Retrying, timeout: 1, timeoutId: undefined, ws: undefined, timeToRetry: undefined }
+	return { url: initProps.url, state: WaitingToRetry, timeout: 1, ws: undefined, timeToRetry: 0 }
 }
 
 const click = Message('click')
@@ -38,30 +38,37 @@ const connected = Message('connected')
 const tryReconnect = Message('tryReconnect')
 
 function connect({ on, msg }: ConnectParams<{}, State>) {
+  const polling = Observable.interval(1000);
 
 	on(click, () => msg.send(tryReconnect()))
   on(disconnected, state => {
-    console.log("Disconnected!")
     let timeout = state.timeout * 2
-    let timeoutId = setTimeout(timeout, () => msg.send(tryReconnect()))
-    update(state, { state: WaitingToRetry, timeout: timeout, timeoutId: timeoutId})
+    console.log("Disconnected: scheduling Timeout for " + timeout + " seconds");
+    return update(state, { state: WaitingToRetry, timeout: timeout, timeToRetry: timeout })
   })
+  on(polling, state => {
+    if (state.state != WaitingToRetry) {
+      return state;
+    }
+    let timeToRetry = state.timeToRetry - 1;
+    if (timeToRetry < 0) {
+      msg.send(tryReconnect());
+    }
+    return update(state, {timeToRetry: timeToRetry})
+  });
   on(tryReconnect, state => {
     console.log("Connecting: " + state.url)
-    if (state.timeoutId !== undefined) {
-      clearTimeout(state.timeoutId)
-    }
     let ws = new WebSocket(state.url)
     ws.onopen = () => msg.send(connected())
     ws.onclose = () => msg.send(disconnected())
     ws.onmessage = (evt) => {
       console.log("Message: " + evt.data)
     }
-    update(state, { ws: ws, timeoutId: undefined })
+    return update(state, { ws: ws })
   });
   on(connected, state => {
-    console.log("Connected!");
-    update(state, {state: Connected, timeoutId: undefined, timeout: 1, timeToRetry: 0})
+    console.log("Connected!")
+    return update(state, {state: Connected, timeout: 1, timeToRetry: 1})
   })
 
 }
@@ -71,7 +78,7 @@ function render({ state }: RenderParams<Props, State>) {
   if (state.state == Retrying) {
     text = "Retrying to connect"
   } else if (state.state == WaitingToRetry) {
-    text = "Waiting to Retry"
+    text = "Disconnected - will retry in " + state.timeToRetry + "s. Click to force retry"
   } else if (state.state == Connected) {
     text = "Connected"
   }
