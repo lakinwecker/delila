@@ -28,7 +28,6 @@ function connect({ on }: ConnectParams<void, State>) {
 
 //-----------------------------------------------------------------------------------------
 function render({ state, msg }: RenderParams<void, State>) {
-  // TODO: make the styling configurable
   let classExtra = "";
   if (state.isActive) {
     classExtra = " .is-active"
