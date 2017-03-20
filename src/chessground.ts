@@ -1,6 +1,7 @@
 //--------------------------------------------------------------------------------------------------
 // The reader component
-import chessground from './chessground'
+import { Chessground } from 'chessground'
+import { Api } from 'chessground/api'
 
 import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
 // import { update } from 'immupdate'
@@ -10,24 +11,31 @@ export default function() {
 }
 
 interface State {
+  chessground?: Api
 }
  
 //-----------------------------------------------------------------------------------------
 function initState() {
-	return { }
+	return { chessground: undefined }
 }
 
 //-----------------------------------------------------------------------------------------
-const click = Message('click')
+const inserted = Message<Element>('inserted')
+const destroyed = Message('destroyed')
 
 function connect({ on }: ConnectParams<void, State>) {
-	on(click, () => {console.log("click")})
+  on(inserted, ( state, elm ) => {
+    state.chessground = Chessground(elm as HTMLElement, {
+    })
+  })
 }
 
 //-----------------------------------------------------------------------------------------
-function render({ }: RenderParams<void, State>) {
-  // TODO: make the styling configurable
-	return h('reader.blue.merida', { events: { click } }, chessground())
+function render({ msg }: RenderParams<void, State>) {
+	return h('cgcontainer', { hook: {
+    insert: node => msg.send(inserted(node.elm)),
+    destroy: () => msg.send(destroyed())
+  }})
 }
 
 
