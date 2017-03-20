@@ -4070,7 +4070,6 @@ div.container {
       flex-basis: 32px;
       order: 1; }
     div.container #app section {
-      background-color: #fafafa;
       flex-grow: 1;
       flex-basis: fill;
       order: 2; }
@@ -4087,12 +4086,16 @@ reader {
   reader board {
     /* TODO: Make this always square. */ }
 
-header .delila.is-3 {
-  font-variant: small-caps;
-  font-size: 2rem;
-  color: black;
-  padding-top: 2px;
-  margin: 10px 0 0 0; }
+header {
+  z-index: 3; }
+  header .delila.is-3 {
+    font-variant: small-caps;
+    font-size: 2rem;
+    color: black;
+    padding-top: 2px;
+    margin: 10px 0 0 0; }
+  header .import {
+    font-weight: bold; }
 
 footer {
   width: 100%;
@@ -4111,8 +4114,8 @@ cgcontainer {
   height: 100%; }
 
 .cg-board-wrap {
-  height: 650px;
-  width: 650px;
+  height: 850px;
+  width: 850px;
   position: relative;
   display: block; }
 
