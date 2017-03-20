@@ -6,6 +6,7 @@ import eventlisteners from 'snabbdom/modules/eventlisteners'
 
 import server from './server'
 import reader from './reader'
+import importpgn from './importpgn'
 
 function run(element: HTMLElement) {
   //var pages = [];
@@ -15,9 +16,8 @@ function run(element: HTMLElement) {
         h("h2.delila.title.is-3", {}, "Delila")
       ]),
       h("div.nav-right.nav-menu", {}, [
-        h("a.nav-item", {}, "Study"),
-        h("a.nav-item", {}, "Practice"),
-        h("a.nav-item", {}, "Analyze"),
+        // TODO: these menu/action items will eventually need to be moved elsewhere. :P
+        h("a.nav-item", {}, importpgn()),
       ])
     ]);
   }
