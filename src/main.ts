@@ -12,7 +12,7 @@ function run(element: HTMLElement) {
   function header(/*page_index*/) {
     return h("nav.nav", {}, [
       h("div.nav-left", {}, [
-        h("h2.delila.title.is-2", {}, "Delila")
+        h("h2.delila.title.is-3", {}, "Delila")
       ]),
       h("div.nav-right.nav-menu", {}, [
         h("a.nav-item", {}, "Study"),
