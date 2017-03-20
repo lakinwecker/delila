@@ -1,0 +1,29 @@
+html, body {
+    height: 100%;
+}
+div.container {
+    height: 100%;
+    #app {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+
+        header {
+            flex-shrink: 1;
+            flex-basis: 32px;
+            order: 1;
+        }
+        section {
+            background-color: #fafafa;
+            flex-grow: 1;
+            flex-basis: fill;
+            order: 2;
+        }
+        footer {
+            flex-shrink: 1;
+            flex-basis: 32px;
+            order: 3;
+        }
+    }
+}

@@ -1,19 +1,18 @@
-// import { ReaderGamePage } from './ReaderGamePage'
-
-import {h, startApp, VNode} from 'kaiju'
+import {h, startApp } from 'kaiju'
 import klass from 'snabbdom/modules/class'
 import attributes from 'snabbdom/modules/attributes'
 import style from 'snabbdom/modules/style'
 import eventlisteners from 'snabbdom/modules/eventlisteners'
 
 import server from './server'
+import reader from './reader'
 
 function run(element: HTMLElement) {
   //var pages = [];
-  function header(/*page_index*/): VNode {
+  function header(/*page_index*/) {
     return h("nav.nav", {}, [
       h("div.nav-left", {}, [
-        h("h1.delila.title.is-3", {}, "Delila")
+        h("h2.delila.title.is-2", {}, "Delila")
       ]),
       h("div.nav-right.nav-menu", {}, [
         h("a.nav-item", {}, "Study"),
@@ -22,15 +21,15 @@ function run(element: HTMLElement) {
       ])
     ]);
   }
-  function footer(): VNode {
+  function footer() {
     return h("connection", {}, [
       server({url: "ws://127.0.0.1:3012"})
     ])
   }
-  function base(): VNode {
-    return h("div", {}, [
+  function base() {
+    return h("div#app", {}, [
       h("header", header()),
-      h("section"),
+      h("section", reader()),
       h("footer", footer())
     ]);
   }

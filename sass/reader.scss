@@ -1,0 +1,13 @@
+reader {
+    display: block;
+    width: 100%;
+    height: 100%;
+    flex: 2;
+    board {
+        /* TODO: Make this always square. */
+    }
+    movelist {
+    }
+    controls {
+    }
+}

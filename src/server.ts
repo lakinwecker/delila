@@ -3,6 +3,10 @@ import { update } from 'immupdate'
 import { Observable } from 'kaiju/observable'
 
 
+// TODO: At the moment - access to the websocket is not provided anywhere. Which we will need
+//       to have in order for other components to access it. 
+
+//-----------------------------------------------------------------------------------------
 // Define our Connection States as a union type with convenience constants.
 type ConnectionState = Connected | Retrying | WaitingToRetry
 type Connected = { type: 'Connected' }
@@ -28,32 +32,30 @@ interface State {
   ws?: WebSocket,
 }
  
+//-----------------------------------------------------------------------------------------
 function initState(initProps: Props) {
 	return { url: initProps.url, state: WaitingToRetry, timeout: 1, ws: undefined, timeToRetry: 0 }
 }
 
+//-----------------------------------------------------------------------------------------
 const click = Message('click')
 const disconnected = Message('disconnected')
 const connected = Message('connected')
 const tryReconnect = Message('tryReconnect')
 
 function connect({ on, msg }: ConnectParams<{}, State>) {
+  // TODO: Evaluate the effect of this on the battery life.
   const polling = Observable.interval(1000);
 
 	on(click, () => msg.send(tryReconnect()))
   on(disconnected, state => {
     let timeout = state.timeout * 2
-    console.log("Disconnected: scheduling Timeout for " + timeout + " seconds");
     return update(state, { state: WaitingToRetry, timeout: timeout, timeToRetry: timeout })
   })
   on(polling, state => {
-    if (state.state != WaitingToRetry) {
-      return state;
-    }
+    if (state.state != WaitingToRetry) return state
     let timeToRetry = state.timeToRetry - 1;
-    if (timeToRetry < 0) {
-      msg.send(tryReconnect());
-    }
+    if (timeToRetry <= 0) msg.send(tryReconnect())
     return update(state, {timeToRetry: timeToRetry})
   });
   on(tryReconnect, state => {
@@ -64,15 +66,13 @@ function connect({ on, msg }: ConnectParams<{}, State>) {
     ws.onmessage = (evt) => {
       console.log("Message: " + evt.data)
     }
-    return update(state, { ws: ws })
+    return update(state, { ws: ws, state: Retrying })
   });
-  on(connected, state => {
-    console.log("Connected!")
-    return update(state, {state: Connected, timeout: 1, timeToRetry: 1})
-  })
+  on(connected, state => update(state, {state: Connected, timeout: 1, timeToRetry: 1}))
 
 }
 
+//-----------------------------------------------------------------------------------------
 function render({ state }: RenderParams<Props, State>) {
   let text = "";
   if (state.state == Retrying) {
