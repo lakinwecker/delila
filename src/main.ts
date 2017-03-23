@@ -36,7 +36,8 @@ function run(element: HTMLElement) {
   startApp({
     app: base(),
     snabbdomModules: [klass, attributes, style, eventlisteners],
-    elm: element
+    elm: element,
+    replaceElm: true
   });
 }
 var element = document.getElementById("app");
