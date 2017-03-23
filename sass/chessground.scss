@@ -9,8 +9,9 @@ cgcontainer {
 }
 
 .cg-board-wrap {
-  height: 850px;
-  width: 850px;
+  width: 50%;
+  height: 0;
+  padding-bottom: 50%;
   position: relative;
   display: block;
 }
