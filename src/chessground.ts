@@ -25,8 +25,7 @@ const destroyed = Message('destroyed')
 
 function connect({ on }: ConnectParams<void, State>) {
   on(inserted, ( state, elm ) => {
-    state.chessground = Chessground(elm as HTMLElement, {
-    })
+    state.chessground = Chessground(elm as HTMLElement, {})
   })
 }
 
