@@ -5,7 +5,7 @@ import { update } from 'immupdate'
 
 //-----------------------------------------------------------------------------------------
 export default function() {
-	return Component<void, State>({ name: 'reader', initState, connect, render })
+	return Component<void, State>({ name: 'importpgn', initState, connect, render })
 }
 
 //-----------------------------------------------------------------------------------------
@@ -44,13 +44,18 @@ function render({ state, msg }: RenderParams<void, State>) {
         h("section.modal-card-body", {}, [
           h("div", {}, [
             h("div.field", [
-              h("label", "Database"),
-              h("select", {attrs: {name: "database"}}, [
-                h("option", "New")
+              h("label.label", "Database"),
+              h("p.control", [
+                h("select.select", {attrs: {name: "database"}}, [
+                  h("option", "New")
+                ]),
               ]),
             ]),
             h("div.field", [
-              h("input", {attrs: {"type": "file", "name": "Browse"}})
+              h("label.label", "File"),
+              h("p.control", [
+                h("input.button", {attrs: {"type": "file", "name": "Browse"}})
+              ])
             ])
           ])
         ]),
