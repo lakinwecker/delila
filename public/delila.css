@@ -4072,12 +4072,13 @@ label.panel-block {
 
 html, body {
   height: 100%;
-  overflow: hidden; }
+  overflow: hidden;
+  margin: 0.4vh; }
 
 delila.reader {
   display: grid;
-  grid-template-rows: 5vh 90vh 5vh;
-  grid-template-columns: repeat(20, 5vw);
+  grid-template-rows: 4.6vh 90vh 4.6vh;
+  grid-template-columns: repeat(19, 5vw) calc(5vw - 1.8vh);
   width: 100%;
   height: 100%; }
   delila.reader component[name="logo"] {
@@ -4090,7 +4091,7 @@ delila.reader {
   delila.reader component[name="importpgn"] {
     grid-area: 1 / 19 / 2 / 21;
     justify-self: end; }
-    delila.reader component[name="importpgn"] button {
+    delila.reader component[name="importpgn"] .import.button {
       position: relative;
       top: 50%;
       transform: translateY(-50%);
@@ -4111,7 +4112,7 @@ delila.reader {
       delila.reader connection component[name="server"] a {
         position: relative;
         height: 100%;
-        font-size: 2vh; }
+        font-size: 1.5vh; }
         delila.reader connection component[name="server"] a i {
           margin-right: 0.75vh; }
 

@@ -52,7 +52,7 @@ function render({ state, msg }: RenderParams<void, State>) {
           h("button.delete", {on: {click: () => msg.send(hideModal())}})
         ]),
         h("section.modal-card-body", {}, [
-          h("div", {}, [
+          h("div.form", {}, [
             h("div.field", [
               h("label.label", "Database"),
               h("p.control", [
@@ -64,7 +64,7 @@ function render({ state, msg }: RenderParams<void, State>) {
             h("div.field", [
               h("label.label", "File"),
               h("p.control", [
-                h("input.button",
+                h("input.file",
                   {
                     attrs: {"type": "file", "name": "Browse"},
                     on: { change: (evt: Event) => msg.send(selectFile(evt.target as HTMLInputElement))}
@@ -75,7 +75,7 @@ function render({ state, msg }: RenderParams<void, State>) {
           ])
         ]),
         h("footer.modal-card-foot", {}, [
-          h("a.button is-success", "Save changes"),
+          h("a.button is-success", "Import"),
           h("a.button", {on: {click: () => msg.send(hideModal())}}, "Cancel")
         ]),
       ]),

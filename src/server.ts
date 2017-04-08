@@ -76,7 +76,7 @@ function connect({ on, msg }: ConnectParams<{}, State>) {
 function render({ state }: RenderParams<Props, State>) {
   let text = "";
   if (state.state == Retrying) {
-    text = "Retrying to connect"
+    text = "Trying to connect"
   } else if (state.state == WaitingToRetry) {
     text = "Disconnected - will retry in " + state.timeToRetry + "s. Click to force retry"
   } else if (state.state == Connected) {
