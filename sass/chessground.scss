@@ -6,12 +6,10 @@
  */
 cgcontainer { 
     height: 100%;
+    width: 100%;
 }
 
 .cg-board-wrap {
-  width: 50%;
-  height: 0;
-  padding-bottom: 50%;
   position: relative;
   display: block;
 }
@@ -116,7 +114,7 @@ cgcontainer {
   font-size: 9px;
 }
 .cg-board-wrap coords.ranks {
-  right: -15px;
+  right: -5px;
   top: 0;
   flex-flow: column-reverse;
   height: 100%;
@@ -126,7 +124,7 @@ cgcontainer {
   flex-flow: column;
 }
 .cg-board-wrap coords.files {
-  bottom: -16px;
+  bottom: -5px;
   left: 0;
   flex-flow: row;
   width: 100%;

@@ -2,6 +2,10 @@
   "name": "delila",
   "version": "0.0.1",
   "description": "A chess user interface intended for study, database creation, browsing and querying.",
+  "main": "public/nw.html",
+  "window": {
+    "toolbar": true
+  },
   "jest": {
     "transform": {
       "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"

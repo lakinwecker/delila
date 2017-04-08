@@ -7,7 +7,7 @@ import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
 // import { update } from 'immupdate'
 
 export default function() {
-	return Component<void, State>({ name: 'reader', initState, connect, render })
+	return Component<void, State>({ name: 'chessground', initState, connect, render })
 }
 
 interface State {

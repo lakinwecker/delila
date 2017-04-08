@@ -11,19 +11,29 @@ export default function() {
 //-----------------------------------------------------------------------------------------
 interface State {
   isActive: boolean,
+  databasePath?: string
 }
  
 function initState() {
-	return { isActive: false }
+	return { isActive: false, databasePath: undefined }
 }
 
 //-----------------------------------------------------------------------------------------
 const showModal = Message('showModal')
 const hideModal = Message('hideModal')
+const selectFile = Message<HTMLInputElement>('selectFile')
 
 function connect({ on }: ConnectParams<void, State>) {
 	on(showModal, (state) => update(state, {isActive: true}))
 	on(hideModal, (state) => update(state, {isActive: false}))
+	on(selectFile, (state, elm) => {
+    if (elm.files) {
+      let file: any = elm.files[0];
+      if (!file) return
+      console.log(file.path);
+      update(state, {databasePath: file.path})
+    }
+  })
 }
 
 //-----------------------------------------------------------------------------------------
@@ -33,7 +43,7 @@ function render({ state, msg }: RenderParams<void, State>) {
     classExtra = " .is-active"
   }
   return h("import", {}, [
-    h("button.import.button.is-primary", {on: { click: () => msg.send(showModal())}}, "+ Import Games"),
+    h("button.import.button", {on: { click: () => msg.send(showModal())}}, "+ Import Games"),
     h("div.modal" + classExtra, {}, [
       h("div.modal-background"),
       h("div.modal-card", {}, [
@@ -54,7 +64,12 @@ function render({ state, msg }: RenderParams<void, State>) {
             h("div.field", [
               h("label.label", "File"),
               h("p.control", [
-                h("input.button", {attrs: {"type": "file", "name": "Browse"}})
+                h("input.button",
+                  {
+                    attrs: {"type": "file", "name": "Browse"},
+                    on: { change: (evt: Event) => msg.send(selectFile(evt.target as HTMLInputElement))}
+                  }
+                )
               ])
             ])
           ])

@@ -7,30 +7,20 @@ import eventlisteners from 'snabbdom/modules/eventlisteners'
 import server from './server'
 import reader from './reader'
 import importpgn from './importpgn'
+import logo from './logo'
 
 function run(element: HTMLElement) {
-  //var pages = [];
-  function header(/*page_index*/) {
-    return h("nav.nav", {}, [
-      h("div.nav-left", {}, [
-        h("h2.delila.title.is-3", {}, "Delila")
-      ]),
-      h("div.nav-right.nav-menu", {}, [
-        // TODO: these menu/action items will eventually need to be moved elsewhere. :P
-        h("a.nav-item", {}, importpgn()),
-      ])
-    ]);
-  }
-  function footer() {
+  function connection() {
     return h("connection", {}, [
       server({url: "ws://127.0.0.1:3012"})
     ])
   }
   function base() {
-    return h("div#app", {}, [
-      h("header", header()),
-      h("section", reader()),
-      h("footer", footer())
+    return h("delila.reader", {}, [
+      logo(),
+      importpgn(),
+      reader(),
+      connection(),
     ]);
   }
   startApp({
