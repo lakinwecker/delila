@@ -1,0 +1,11 @@
+component[name="importpgn"] {
+    .import.button {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+    }
+    .field:not(:last-child) {
+        margin-bottom: 0.75rem;
+    }
+}

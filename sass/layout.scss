@@ -12,22 +12,10 @@ delila.reader {
     
     component[name="logo"] {
         grid-area: 1 / 1 / 2 / 5;
-        h2 { 
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
-            margin: 0;
-        }
     }
     component[name="importpgn"] {
         grid-area: 1 / 19 / 2 / 21;
         justify-self: end;
-        .import.button {
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
-            margin: 0;
-        }
     }
     component[name="reader"] {
         grid-area: 2 / 1 / 3 / 21;
@@ -45,14 +33,6 @@ delila.reader {
         height: 100%;
         component[name="server"] {
             height: 100%;
-            a {
-                position: relative;
-                height: 100%;
-                font-size: 1.5vh;
-                i {
-                    margin-right: 0.75vh;
-                }
-            }
         }
     }
 }

@@ -2,6 +2,7 @@
 // The import PGN modal dialog.
 import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
+import path = require('path');
 
 //-----------------------------------------------------------------------------------------
 export default function() {
@@ -11,37 +12,53 @@ export default function() {
 //-----------------------------------------------------------------------------------------
 interface State {
   isActive: boolean,
-  databasePath?: string
+  pgnPath?: string,
+  targetDatabase: string,
+  fileInput?: HTMLInputElement
 }
  
 function initState() {
-	return { isActive: false, databasePath: undefined }
+	return { isActive: false, pgnPath: undefined, targetDatabase: "new" }
 }
 
 //-----------------------------------------------------------------------------------------
 const showModal = Message('showModal')
 const hideModal = Message('hideModal')
+const setFileInput = Message<HTMLInputElement>('setFileInput')
+const showFileDialog = Message('showFileDialog')
 const selectFile = Message<HTMLInputElement>('selectFile')
 
 function connect({ on }: ConnectParams<void, State>) {
 	on(showModal, (state) => update(state, {isActive: true}))
 	on(hideModal, (state) => update(state, {isActive: false}))
+	on(setFileInput, (state, elm: HTMLInputElement) => update(state, {fileInput: elm}))
+	on(showFileDialog, (state) => {
+    if (state.fileInput) {
+      state.fileInput.click()
+    }
+  })
 	on(selectFile, (state, elm) => {
     if (elm.files) {
       let file: any = elm.files[0];
       if (!file) return
-      console.log(file.path);
-      update(state, {databasePath: file.path})
+      return update(state, {pgnPath: file.path})
     }
   })
 }
 
 //-----------------------------------------------------------------------------------------
 function render({ state, msg }: RenderParams<void, State>) {
-  let classExtra = "";
+  let classExtra = ""
   if (state.isActive) {
     classExtra = " .is-active"
   }
+  let buttonTitle = ""
+  if (state.pgnPath) {
+    buttonTitle = "Change PGN File: " + path.basename(state.pgnPath)
+  } else {
+    buttonTitle = "Select PGN File"
+  }
+
   return h("import", {}, [
     h("button.import.button", {on: { click: () => msg.send(showModal())}}, "+ Import Games"),
     h("div.modal" + classExtra, {}, [
@@ -54,23 +71,31 @@ function render({ state, msg }: RenderParams<void, State>) {
         h("section.modal-card-body", {}, [
           h("div.form", {}, [
             h("div.field", [
-              h("label.label", "Database"),
-              h("p.control", [
-                h("select.select", {attrs: {name: "database"}}, [
-                  h("option", "New")
-                ]),
-              ]),
-            ]),
-            h("div.field", [
-              h("label.label", "File"),
               h("p.control", [
                 h("input.file",
                   {
-                    attrs: {"type": "file", "name": "Browse"},
-                    on: { change: (evt: Event) => msg.send(selectFile(evt.target as HTMLInputElement))}
+                    attrs: {"type": "file", "name": "Browse", "style": "display: none"},
+                    on: { change: (evt: Event) => msg.send(selectFile(evt.target as HTMLInputElement))},
+                    hook: { insert: (vnode) => {
+                      msg.send(setFileInput(vnode.elm as HTMLInputElement))
+                    }}
                   }
+                ),
+                h("button.button",
+                  {on: { click: () => msg.send(showFileDialog())}},
+                  buttonTitle
                 )
               ])
+            ]),
+            h("div.field", [
+              h("label.label", "Import into which database?"),
+              h("p.control", [
+                h("span.select", [
+                  h("select", {attrs: {name: "database"}}, [
+                    h("option", "New")
+                  ]),
+                ]),
+              ]),
             ])
           ])
         ]),

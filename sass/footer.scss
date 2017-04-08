@@ -3,8 +3,13 @@ footer {
     height: 32px;
     padding: 2px;
     connection {
-        i {
-            margin-right: 5px;
+        a {
+            position: relative;
+            height: 100%;
+            font-size: 1.5vh;
+            i {
+                margin-right: 5px;
+            }
         }
     }
 }

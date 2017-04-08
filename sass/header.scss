@@ -1,4 +1,8 @@
 .delila.is-3 {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
     font-family: "Dual";
     font-variant: small-caps;
     font-size: 4vh;

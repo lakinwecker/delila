@@ -29,7 +29,7 @@
     "abyssa": "^8.0.3",
     "babel-polyfill": "^6.23.0",
     "babel-runtime": "^6.23.0",
-    "bulma": "^0.3.2",
+    "bulma": "^0.4.0",
     "chessground": "^6.4.14",
     "immupdate": "^1.0.1",
     "jest-cli": "^19.0.2",
