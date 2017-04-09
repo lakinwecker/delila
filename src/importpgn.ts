@@ -88,11 +88,11 @@ function render({ state, msg }: RenderParams<void, State>) {
               ])
             ]),
             h("div.field", [
-              h("label.label", "Import into which database?"),
               h("p.control", [
+              h("label.label", "Import into:"),
                 h("span.select", [
                   h("select", {attrs: {name: "database"}}, [
-                    h("option", "New")
+                    h("option", "New Database")
                   ]),
                 ]),
               ]),
