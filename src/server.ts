@@ -1,6 +1,7 @@
 import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
 import { Observable } from 'kaiju/observable'
+import { Connection } from "./server/connection"
 
 
 // TODO: At the moment - access to the websocket is not provided anywhere. Which we will need
@@ -16,25 +17,28 @@ const Connected: ConnectionState = { type: 'Connected' }
 const Retrying: ConnectionState = { type: 'Retrying' }
 const WaitingToRetry: ConnectionState = { type: 'WaitingToRetry' }
 
+//-----------------------------------------------------------------------------------------
 export default function(props: Props) {
 	return Component<Props, State>({ name: 'server', props, initState, connect, render })
 }
 
+//-----------------------------------------------------------------------------------------
 interface Props {
   url: string
 }
  
+//-----------------------------------------------------------------------------------------
 interface State {
   url: string,
 	state: ConnectionState,
   timeout: number,
   timeToRetry: number,
-  ws?: WebSocket,
+  connection: Connection,
 }
  
 //-----------------------------------------------------------------------------------------
 function initState(initProps: Props) {
-	return { url: initProps.url, state: WaitingToRetry, timeout: 1, ws: undefined, timeToRetry: 0 }
+	return { url: initProps.url, state: WaitingToRetry, timeout: 1, connection: Connection.getInstance(), timeToRetry: 0 }
 }
 
 //-----------------------------------------------------------------------------------------
@@ -59,14 +63,10 @@ function connect({ on, msg }: ConnectParams<{}, State>) {
     return update(state, {timeToRetry: timeToRetry})
   });
   on(tryReconnect, state => {
-    console.log("Connecting: " + state.url)
-    let ws = new WebSocket(state.url)
-    ws.onopen = () => msg.send(connected())
-    ws.onclose = () => msg.send(disconnected())
-    ws.onmessage = (evt) => {
-      console.log("Message: " + evt.data)
-    }
-    return update(state, { ws: ws, state: Retrying })
+    state.connection.connect(state.url);
+    state.connection.onopen = () => msg.send(connected())
+    state.connection.onclose = () => msg.send(disconnected())
+    return update(state, { state: Retrying })
   });
   on(connected, state => update(state, {state: Connected, timeout: 1, timeToRetry: 1}))
 

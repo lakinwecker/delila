@@ -1,4 +1,3 @@
-//--------------------------------------------------------------------------------------------------
 // The import PGN modal dialog.
 import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
@@ -11,26 +10,41 @@ export default function() {
 
 //-----------------------------------------------------------------------------------------
 interface State {
-  isActive: boolean,
+  showingSelectFileDialog: boolean,
+  showFileImportProgress: boolean,
   pgnPath?: string,
   targetDatabase: string,
-  fileInput?: HTMLInputElement
+  fileInput?: HTMLInputElement,
+  progress: number
 }
  
 function initState() {
-	return { isActive: false, pgnPath: undefined, targetDatabase: "new" }
+	return {
+    showingSelectFileDialog: false,
+    pgnPath: undefined,
+    targetDatabase: "new",
+    showFileImportProgress: false,
+    progress: 0.0
+  }
 }
 
 //-----------------------------------------------------------------------------------------
 const showModal = Message('showModal')
-const hideModal = Message('hideModal')
+const hideFileDialog = Message('hideFileDialog')
 const setFileInput = Message<HTMLInputElement>('setFileInput')
 const showFileDialog = Message('showFileDialog')
 const selectFile = Message<HTMLInputElement>('selectFile')
+const importPgn = Message('importPgn')
+const cancelFileImport = Message('cancelFileImport')
 
 function connect({ on }: ConnectParams<void, State>) {
-	on(showModal, (state) => update(state, {isActive: true}))
-	on(hideModal, (state) => update(state, {isActive: false}))
+	on(showModal, (state) => update(state, {showingSelectFileDialog: true}))
+	on(hideFileDialog, (state) => update(state, {showingSelectFileDialog: false}))
+	on(importPgn, (state) => {
+    console.log(state.pgnPath)
+    return update(state, { showingSelectFileDialog: false, showFileImportProgress: true })
+  })
+	on(cancelFileImport, (state) => update(state, {showFileImportProgress: false}))
 	on(setFileInput, (state, elm: HTMLInputElement) => update(state, {fileInput: elm}))
 	on(showFileDialog, (state) => {
     if (state.fileInput) {
@@ -48,10 +62,15 @@ function connect({ on }: ConnectParams<void, State>) {
 
 //-----------------------------------------------------------------------------------------
 function render({ state, msg }: RenderParams<void, State>) {
-  let classExtra = ""
-  if (state.isActive) {
-    classExtra = " .is-active"
+  let fileDialogClass = ""
+  if (state.showingSelectFileDialog) {
+    fileDialogClass = " .is-active"
   }
+  let progressDialogClass = ""
+  if (state.showFileImportProgress) {
+    progressDialogClass = " .is-active"
+  }
+  console.log(progressDialogClass);
   let buttonTitle = ""
   if (state.pgnPath) {
     buttonTitle = "Change PGN File: " + path.basename(state.pgnPath)
@@ -61,12 +80,12 @@ function render({ state, msg }: RenderParams<void, State>) {
 
   return h("import", {}, [
     h("button.import.button", {on: { click: () => msg.send(showModal())}}, "+ Import Games"),
-    h("div.modal" + classExtra, {}, [
+    h("div.modal" + fileDialogClass, {}, [
       h("div.modal-background"),
       h("div.modal-card", {}, [
         h("header.modal-card-head", {}, [
           h("div.modal-card-title", "Import Games"),
-          h("button.delete", {on: {click: () => msg.send(hideModal())}})
+          h("button.delete", {on: {click: () => msg.send(hideFileDialog())}})
         ]),
         h("section.modal-card-body", {}, [
           h("div.form", {}, [
@@ -100,8 +119,23 @@ function render({ state, msg }: RenderParams<void, State>) {
           ])
         ]),
         h("footer.modal-card-foot", {}, [
-          h("a.button is-success", "Import"),
-          h("a.button", {on: {click: () => msg.send(hideModal())}}, "Cancel")
+          h("a.button is-success", {on: {click: () => msg.send(importPgn())}}, "Import"),
+          h("a.button", {on: {click: () => msg.send(hideFileDialog())}}, "Cancel")
+        ]),
+      ]),
+    ]),
+    h("div.modal" + progressDialogClass, {}, [
+      h("div.modal-background"),
+      h("div.modal-card", {}, [
+        h("header.modal-card-head", {}, [
+          h("div.modal-card-title", "Importing..."),
+          h("button.delete", {on: {click: () => msg.send(cancelFileImport())}})
+        ]),
+        h("section.modal-card-body", {}, [
+          h("progress.progress.is-large", {attrs: {"value": state.progress, "max": 100}}, state.progress + "%")
+        ]),
+        h("footer.modal-card-foot", {}, [
+          h("a.button", {on: {click: () => msg.send(cancelFileImport())}}, "Cancel")
         ]),
       ]),
     ])
