@@ -4,7 +4,7 @@ import attributes from 'snabbdom/modules/attributes'
 import style from 'snabbdom/modules/style'
 import eventlisteners from 'snabbdom/modules/eventlisteners'
 
-import server from './server'
+import server from './server/component'
 import reader from './reader'
 import importpgn from './importpgn'
 import logo from './logo'

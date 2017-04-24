@@ -1,7 +1,15 @@
 //--------------------------------------------------------------------------------------------------
 // A simple WebSocket wrapped in a singleton so that we have a single point of access to the server.
+
+interface IncomingMessageCallback { (jsonString: string): void }
+interface CallbackMap {
+  [key: string]: IncomingMessageCallback;
+}
+
 export class Connection {
   private static _instance?:Connection = undefined;
+  private static idSequence:number = 0;
+  private callbacks: CallbackMap;
   ws: WebSocket;
 
   //------------------------------------------------------------------------------------------------
@@ -13,13 +21,30 @@ export class Connection {
   }
 
   //------------------------------------------------------------------------------------------------
-  constructor() {}
+  public static uniqueId(): number {
+    return Connection.idSequence += 1
+  }
+
+  //------------------------------------------------------------------------------------------------
+  constructor() {
+    this.callbacks = {};
+  }
 
   //------------------------------------------------------------------------------------------------
   connect(url: string) {
     this.ws = new WebSocket(url)
     this.ws.onopen = () => this.onopen()
     this.ws.onclose = () => this.onclose()
+    this.ws.onmessage = (event) => {
+      let message = JSON.parse(event.data);
+      // TODO: validate the incoming json structure.
+      let key = message.id + message.methodName;
+      let callback: IncomingMessageCallback = this.callbacks[key];
+      if (callback) {
+        callback(message.args);
+      }
+
+    }
   }
 
   //------------------------------------------------------------------------------------------------
@@ -27,5 +52,11 @@ export class Connection {
 
   //------------------------------------------------------------------------------------------------
   onclose() {}
+
+  //------------------------------------------------------------------------------------------------
+  register(id: number, methodName: string, callback: IncomingMessageCallback) {
+    let key = id + methodName;
+    this.callbacks[key] = callback;
+  }
 }
 

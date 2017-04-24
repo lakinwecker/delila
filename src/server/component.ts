@@ -1,11 +1,7 @@
 import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
 import { Observable } from 'kaiju/observable'
-import { Connection } from "./server/connection"
-
-
-// TODO: At the moment - access to the websocket is not provided anywhere. Which we will need
-//       to have in order for other components to access it. 
+import { Connection } from "./connection"
 
 //-----------------------------------------------------------------------------------------
 // Define our Connection States as a union type with convenience constants.
