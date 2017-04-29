@@ -1,30 +1,53 @@
 // The import PGN modal dialog.
 import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
+import { ImportFileState, Remote, factory, importFile } from './server/importfile'
 import path = require('path');
 
+// TODO: it probably makes sense for us to refactor the loading screen into it's own
+//       module - but I need to figure out a better pattern for intermodule communication
+//       using kaiju. 
+
 //-----------------------------------------------------------------------------------------
-export default function() {
-	return Component<void, State>({ name: 'importpgn', initState, connect, render })
+export default function () {
+  return Component<Props, State>({
+    name: 'importpgn',
+    props: defaultProps(),
+    initState,
+    connect,
+    render
+  })
 }
 
+//-----------------------------------------------------------------------------------------
+interface Props {
+  remoteStore: Remote
+}
+
+//-----------------------------------------------------------------------------------------
+function defaultProps(): Props {
+  return { remoteStore: factory() }
+}
+ 
 //-----------------------------------------------------------------------------------------
 interface State {
   showingSelectFileDialog: boolean,
   showFileImportProgress: boolean,
-  pgnPath?: string,
   targetDatabase: string,
   fileInput?: HTMLInputElement,
-  progress: number
+  remoteState: ImportFileState,
 }
  
 function initState() {
-	return {
+  return {
     showingSelectFileDialog: false,
-    pgnPath: undefined,
     targetDatabase: "new",
     showFileImportProgress: false,
-    progress: 0.0
+    remoteState: {
+      activity: "",
+      progress: 0,
+      path: undefined
+    },
   }
 }
 
@@ -37,31 +60,32 @@ const selectFile = Message<HTMLInputElement>('selectFile')
 const importPgn = Message('importPgn')
 const cancelFileImport = Message('cancelFileImport')
 
-function connect({ on }: ConnectParams<void, State>) {
-	on(showModal, (state) => update(state, {showingSelectFileDialog: true}))
-	on(hideFileDialog, (state) => update(state, {showingSelectFileDialog: false}))
-	on(importPgn, (state) => {
-    console.log(state.pgnPath)
+function connect({ on, props }: ConnectParams<Props, State>) {
+  on(showModal, (state) => update(state, {showingSelectFileDialog: true}))
+  on(hideFileDialog, (state) => update(state, {showingSelectFileDialog: false}))
+  on(importPgn, (state) => {
+    props().remoteStore.store.send(importFile({path: state.remoteState.path}));
     return update(state, { showingSelectFileDialog: false, showFileImportProgress: true })
   })
-	on(cancelFileImport, (state) => update(state, {showFileImportProgress: false}))
-	on(setFileInput, (state, elm: HTMLInputElement) => update(state, {fileInput: elm}))
-	on(showFileDialog, (state) => {
+  on(cancelFileImport, (state) => update(state, {showFileImportProgress: false}))
+  on(setFileInput, (state, elm: HTMLInputElement) => update(state, {fileInput: elm}))
+  on(showFileDialog, (state) => {
     if (state.fileInput) {
       state.fileInput.click()
     }
   })
-	on(selectFile, (state, elm) => {
+  on(selectFile, (state, elm) => {
     if (elm.files) {
       let file: any = elm.files[0];
       if (!file) return
-      return update(state, {pgnPath: file.path})
+      return update(state, {remoteState: update(state.remoteState, {path: file.path})})
     }
   })
+  on(props().remoteStore.store.state, (state, remoteState: ImportFileState) => { update(state, {remoteState: remoteState}) })
 }
 
 //-----------------------------------------------------------------------------------------
-function render({ state, msg }: RenderParams<void, State>) {
+function render({ state, msg }: RenderParams<Props, State>) {
   let fileDialogClass = ""
   if (state.showingSelectFileDialog) {
     fileDialogClass = " .is-active"
@@ -72,8 +96,8 @@ function render({ state, msg }: RenderParams<void, State>) {
   }
   console.log(progressDialogClass);
   let buttonTitle = ""
-  if (state.pgnPath) {
-    buttonTitle = "Change PGN File: " + path.basename(state.pgnPath)
+  if (state.remoteState.path) {
+    buttonTitle = "Change PGN File: " + path.basename(state.remoteState.path)
   } else {
     buttonTitle = "Select PGN File"
   }
@@ -132,7 +156,7 @@ function render({ state, msg }: RenderParams<void, State>) {
           h("button.delete", {on: {click: () => msg.send(cancelFileImport())}})
         ]),
         h("section.modal-card-body", {}, [
-          h("progress.progress.is-large", {attrs: {"value": state.progress, "max": 100}}, state.progress + "%")
+          h("progress.progress.is-large", {attrs: {"value": state.remoteState.progress, "max": 100}}, state.remoteState.progress + "%")
         ]),
         h("footer.modal-card-foot", {}, [
           h("a.button", {on: {click: () => msg.send(cancelFileImport())}}, "Cancel")
