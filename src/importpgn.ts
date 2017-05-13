@@ -81,7 +81,9 @@ function connect({ on, props }: ConnectParams<Props, State>) {
       return update(state, {remoteState: update(state.remoteState, {path: file.path})})
     }
   })
-  on(props().remoteStore.store.state, (state, remoteState: ImportFileState) => { update(state, {remoteState: remoteState}) })
+  on(props().remoteStore.store.state, (state, remoteState: ImportFileState) => {
+    return update(state, {remoteState: remoteState})
+  })
 }
 
 //-----------------------------------------------------------------------------------------
@@ -94,7 +96,6 @@ function render({ state, msg }: RenderParams<Props, State>) {
   if (state.showFileImportProgress) {
     progressDialogClass = " .is-active"
   }
-  console.log(progressDialogClass);
   let buttonTitle = ""
   if (state.remoteState.path) {
     buttonTitle = "Change PGN File: " + path.basename(state.remoteState.path)

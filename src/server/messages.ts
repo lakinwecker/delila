@@ -40,6 +40,7 @@ export class OutgoingMessage<State, Interface> extends OutgoingMessageInterface<
 
 //--------------------------------------------------------------------------------------------------
 export abstract class IncomingMessageInterface<State> {
+  abstract listen(on: RegisterMessages<State>): void;
   abstract register(id: number, connection: Connection, store: StoreInterface<State>): void;
 }
 
@@ -48,19 +49,26 @@ export class IncomingMessage<State, Interface> extends IncomingMessageInterface<
   private name: string
   private message: Message<Interface>
 
+  //------------------------------------------------------------------------------------------------
   constructor(name: string, message: Message<Interface>) {
     super()
     this.name = name
     this.message = message
   }
 
+  //------------------------------------------------------------------------------------------------
   register(id: number, connection: Connection, store: StoreInterface<State>) {
-    connection.register(id, this.message.name, jsonString => {
-      console.log("Received: " + this.message.name + " -- " + jsonString)
+    connection.register(id, this.name, jsonString => {
       // TODO: Do some type based conversion/checking first!!
       store.send(this.message(JSON.parse(jsonString) as Interface));
     })
   }
+
+  //------------------------------------------------------------------------------------------------
+  listen(on: RegisterMessages<State>) {
+    on(this.message, (state: State, v: Interface) => update(state, v));
+  }
+  
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -83,6 +91,7 @@ export class Remote<State> {
     this.outgoing = outgoing
     this.store = Store<State>(initialState, (on: RegisterMessages<State>) => {
       this.outgoing.forEach((outgoing) => outgoing.listen(on, this))
+      this.incoming.forEach((incoming) => incoming.listen(on))
     })
     this.incoming.forEach((incoming) => incoming.register(this.id, this.connection, this.store));
   }
@@ -91,6 +100,6 @@ export class Remote<State> {
   send(name: string, message: string) {
     this.connection.send(this.id, name, message);
   }
-  
+
 
 }

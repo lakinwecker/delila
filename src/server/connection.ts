@@ -40,7 +40,7 @@ export class Connection {
       // TODO: validate the incoming json structure is appropriate (Not the args, just the message container)
       // TODO: much of this id mapping should probably go to the store. We should probably only map
       //       the id to the store.
-      let key = message.id + message.methodName;
+      let key = "" + message.id + message.name;
       let callback: IncomingMessageCallback = this.callbacks[key];
       if (callback) {
         callback(message.args);
@@ -57,7 +57,7 @@ export class Connection {
 
   //------------------------------------------------------------------------------------------------
   register(id: number, methodName: string, callback: IncomingMessageCallback) {
-    let key = id + methodName;
+    let key = "" + id + methodName;
     this.callbacks[key] = callback;
   }
 
