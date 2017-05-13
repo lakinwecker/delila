@@ -65,7 +65,12 @@ function connect({ on, props }: ConnectParams<Props, State>) {
   on(hideFileDialog, (state) => update(state, {showingSelectFileDialog: false}))
   on(importPgn, (state) => {
     props().remoteStore.store.send(importFile({path: state.remoteState.path}));
-    return update(state, { showingSelectFileDialog: false, showFileImportProgress: true })
+    // TODO: Unsure why this doesn't reset the progress to zero, should figure it out later.
+    return update(state, {
+      showingSelectFileDialog: false,
+      showFileImportProgress: true,
+      remoteState: update(state.remoteState, {activity: "waiting", progress: 0})
+    })
   })
   on(cancelFileImport, (state) => update(state, {showFileImportProgress: false}))
   on(setFileInput, (state, elm: HTMLInputElement) => update(state, {fileInput: elm}))
