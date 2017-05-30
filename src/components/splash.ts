@@ -1,11 +1,11 @@
 // The splash screen.
 import { Component, h, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
-import { InitializeState, Remote, factory, initialize } from './server/initialization'
+import { InitializeState, Remote, factory, initialize } from '../server/initialization'
 
-import routeStore from './stores/route'
-import { navigate, Route } from './stores/route'
-import VERSION from './version'
+import routeStore from '../stores/route'
+import { navigate, Route } from '../stores/route'
+import VERSION from '../version'
 
 //-----------------------------------------------------------------------------------------
 export default function () {

@@ -6,11 +6,11 @@ import { update } from 'immupdate'
 import routeStore from './stores/route'
 import { Route } from './stores/route'
 
-import importpgn from './importpgn'
-import logo from './logo'
-import reader from './reader'
+import importpgn from './components/importpgn'
+import logo from './components/logo'
+import reader from './components/reader'
 import server from './server/component'
-import splash from './splash'
+import splash from './components/splash'
 
 //-----------------------------------------------------------------------------------------
 export default function() {

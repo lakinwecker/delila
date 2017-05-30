@@ -1,7 +1,7 @@
 // The import PGN modal dialog.
 import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
-import { ImportFileState, Remote, factory, importFile } from './server/importfile'
+import { ImportFileState, Remote, factory, importFile } from '../server/importfile'
 import path = require('path');
 
 // TODO: it probably makes sense for us to refactor the loading screen into it's own
