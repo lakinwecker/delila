@@ -6,11 +6,14 @@ interface CallbackMap {
   [key: string]: IncomingMessageCallback;
 }
 
+interface Message { id: number, name: string, args: string };
+
 export class Connection {
   private static _instance?:Connection = undefined;
   private static idSequence:number = 0;
   private callbacks: CallbackMap;
   ws: WebSocket;
+  private unsentMessages: Array<Message> = [];
 
   //------------------------------------------------------------------------------------------------
   public static getInstance(): Connection {
@@ -33,7 +36,10 @@ export class Connection {
   //------------------------------------------------------------------------------------------------
   connect(url: string) {
     this.ws = new WebSocket(url)
-    this.ws.onopen = () => this.onopen()
+    this.ws.onopen = () => {
+      this.sendUnsentMessages()
+      this.onopen()
+    }
     this.ws.onclose = () => this.onclose()
     this.ws.onmessage = (event) => {
       let message = JSON.parse(event.data);
@@ -50,6 +56,13 @@ export class Connection {
   }
 
   //------------------------------------------------------------------------------------------------
+  sendUnsentMessages() {
+    var unsentMessages = this.unsentMessages;
+    this.unsentMessages = [];
+    unsentMessages.forEach((msg) => this.send(msg.id, msg.name, msg.args));
+  }
+
+  //------------------------------------------------------------------------------------------------
   onopen() {}
 
   //------------------------------------------------------------------------------------------------
@@ -63,7 +76,12 @@ export class Connection {
 
   //------------------------------------------------------------------------------------------------
   send(id: number, name: string, args: string) {
-    this.ws.send(JSON.stringify({id: id, name: name, args: args}));
+    let message = {id: id, name: name, args: args};
+    if (!this.ws) {
+      this.unsentMessages.push(message)
+    } else {
+      this.ws.send(JSON.stringify(message))
+    }
   }
 }
 

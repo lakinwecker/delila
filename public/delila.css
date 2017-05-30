@@ -4008,9 +4008,18 @@ delila.reader {
   margin: 0;
   font-family: "Dual";
   font-variant: small-caps;
+  font-feature-settings: "ss01", "ss04", "ss07";
   font-size: 4vh;
   padding-top: 0.4vh;
   color: black; }
+  .delila.is-3 .d1, .delila.is-3 .e1 {
+    font-feature-settings: "salt" 3; }
+  .delila.is-3 .l1, .delila.is-3 .l2 {
+    font-feature-settings: "salt" 13; }
+  .delila.is-3 .i1 {
+    font-feature-settings: "salt" 4; }
+  .delila.is-3 .a1 {
+    font-feature-settings: "salt" 15; }
 
 component[name="importpgn"] .import.button {
   position: relative;
@@ -4019,6 +4028,35 @@ component[name="importpgn"] .import.button {
   margin: 0; }
 component[name="importpgn"] .field:not(:last-child) {
   margin-bottom: 0.75rem; }
+
+.content splash {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .content splash h1 {
+    display: block;
+    font-family: "Dual";
+    font-variant: small-caps;
+    font-size: 25vh;
+    margin-bottom: 0; }
+    .content splash h1 .d1, .content splash h1 .e1 {
+      font-feature-settings: "salt" 3; }
+    .content splash h1 .l1, .content splash h1 .l2 {
+      font-feature-settings: "salt" 13; }
+    .content splash h1 .i1 {
+      font-feature-settings: "salt" 4; }
+    .content splash h1 .a1 {
+      font-feature-settings: "salt" 15; }
+  .content splash activity {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    font-family: "Dual";
+    font-variant: small-caps;
+    font-feature-settings: "ss03";
+    font-size: 3vh; }
 
 footer {
   width: 100%;

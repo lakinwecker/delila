@@ -5,7 +5,20 @@
     margin: 0;
     font-family: "Dual";
     font-variant: small-caps;
+    font-feature-settings: "ss01", "ss04", "ss07";
     font-size: 4vh;
     padding-top: 0.4vh;
     color: black;
+    .d1, .e1 {
+        font-feature-settings: "salt" 3;
+    }
+    .l1, .l2 {
+        font-feature-settings: "salt" 13;
+    }
+    .i1 {
+        font-feature-settings: "salt" 4;
+    }
+    .a1 {
+        font-feature-settings: "salt" 15;
+    }
 }

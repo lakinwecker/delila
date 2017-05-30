@@ -13,8 +13,8 @@ interface Progress {
 }
 
 //--------------------------------------------------------------------------------------------------
-export const importFile = Message<File>('importFile')
-export const updateProgress = Message<Progress>('updateProgress')
+export const importFile = Message<File>('import::importFile')
+export const updateProgress = Message<Progress>('import::updateProgress')
 
 //--------------------------------------------------------------------------------------------------
 export interface ImportFileState extends Progress, File {}
@@ -27,8 +27,8 @@ export function factory(): Remote {
   let initialState = { path: undefined, activity: "waiting", progress: 0 }
   let remote = new RemoteInterface<ImportFileState>(
     initialState,
-    [new OutgoingMessage<ImportFileState, File>('importFile', importFile)],
-    [new IncomingMessage<ImportFileState, Progress>('updateProgress', updateProgress)]
+    [new OutgoingMessage<ImportFileState, File>('import::importFile', importFile)],
+    [new IncomingMessage<ImportFileState, Progress>('import::updateProgress', updateProgress)]
   );
   return remote;
 }
