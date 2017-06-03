@@ -3976,29 +3976,33 @@ html, body {
   overflow: hidden;
   margin: 0.4vh; }
 
-delila.reader {
+delila {
   display: grid;
   grid-template-rows: 4.6vh 90vh 4.6vh;
   grid-template-columns: repeat(19, 5vw) calc(5vw - 1.8vh);
   width: 100%;
   height: 100%; }
-  delila.reader component[name="logo"] {
+  delila component[name="logo"] {
     grid-area: 1 / 1 / 2 / 5; }
-  delila.reader component[name="importpgn"] {
+  delila component[name="importpgn"] {
     grid-area: 1 / 19 / 2 / 21;
     justify-self: end; }
-  delila.reader component[name="reader"] {
+  delila component[name="reader"] {
     grid-area: 2 / 1 / 3 / 21; }
-    delila.reader component[name="reader"] reader {
+    delila component[name="reader"] reader {
       display: grid;
       grid-template-rows: repeat(18, 5vh);
       grid-template-columns: repeat(18, 5vh) auto; }
-      delila.reader component[name="reader"] reader component[name="chessground"] {
+      delila component[name="reader"] reader component[name="chessground"] {
         grid-area: 1 / 1 / 19 / 19; }
-  delila.reader connection {
+  delila component[name="splash"] {
+    grid-area: 2 / 1 / 3 / 21; }
+  delila component[name="dashboard"] {
+    grid-area: 2 / 1 / 3 / 21; }
+  delila connection {
     grid-area: 3 / 1 / 4 / 21;
     height: 100%; }
-    delila.reader connection component[name="server"] {
+    delila connection component[name="server"] {
       height: 100%; }
 
 .delila.is-3 {
@@ -4028,35 +4032,6 @@ component[name="importpgn"] .import.button {
   margin: 0; }
 component[name="importpgn"] .field:not(:last-child) {
   margin-bottom: 0.75rem; }
-
-.content splash {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center; }
-  .content splash h1 {
-    display: block;
-    font-family: "Dual";
-    font-variant: small-caps;
-    font-size: 25vh;
-    margin-bottom: 0; }
-    .content splash h1 .d1, .content splash h1 .e1 {
-      font-feature-settings: "salt" 3; }
-    .content splash h1 .l1, .content splash h1 .l2 {
-      font-feature-settings: "salt" 13; }
-    .content splash h1 .i1 {
-      font-feature-settings: "salt" 4; }
-    .content splash h1 .a1 {
-      font-feature-settings: "salt" 15; }
-  .content splash activity {
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-    font-family: "Dual";
-    font-variant: small-caps;
-    font-feature-settings: "ss03";
-    font-size: 3vh; }
 
 footer {
   width: 100%;
@@ -4252,5 +4227,34 @@ cgcontainer {
 
 .merida .cg-board piece.king.black {
   background-image: url("./images/pieces/merida/bK.svg"); }
+
+.content splash {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .content splash h1 {
+    display: block;
+    font-family: "Dual";
+    font-variant: small-caps;
+    font-size: 25vh;
+    margin-bottom: 0; }
+    .content splash h1 .d1, .content splash h1 .e1 {
+      font-feature-settings: "salt" 3; }
+    .content splash h1 .l1, .content splash h1 .l2 {
+      font-feature-settings: "salt" 13; }
+    .content splash h1 .i1 {
+      font-feature-settings: "salt" 4; }
+    .content splash h1 .a1 {
+      font-feature-settings: "salt" 15; }
+  .content splash activity {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    font-family: "Dual";
+    font-variant: small-caps;
+    font-feature-settings: "ss03";
+    font-size: 3vh; }
 
 /*# sourceMappingURL=delila.css.map */

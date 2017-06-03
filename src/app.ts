@@ -6,6 +6,7 @@ import { update } from 'immupdate'
 import routeStore from './stores/route'
 import { Route } from './stores/route'
 
+import dashboard from './components/dashboard'
 import importpgn from './components/importpgn'
 import logo from './components/logo'
 import reader from './components/reader'
@@ -47,13 +48,16 @@ function render({ state }: RenderParams<void, State>) {
     ]);
   } else if (state.route == Route.Dashboard) {
     return h("delila.dashboard", {}, [
-      h("h1", "Dashboard!")
+      logo(),
+      dashboard(),
+      connection()
     ]);
   } else if (state.route == Route.Reader) {
     return h("delila.reader", {}, [
       logo(),
       importpgn(),
       reader(),
+      connection()
     ]);
   } else {
     return h("delila.unknown", {}, [

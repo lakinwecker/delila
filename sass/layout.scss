@@ -3,7 +3,7 @@ html, body {
     overflow: hidden;
     margin: 0.4vh;
 }
-delila.reader {
+delila {
     display: grid;
     grid-template-rows: 4.6vh 90vh 4.6vh;
     grid-template-columns: repeat(19, 5vw) calc(5vw - 1.8vh);
@@ -27,6 +27,12 @@ delila.reader {
                 grid-area: 1 / 1 / 19 / 19;
             }
         }
+    }
+    component[name="splash"] {
+        grid-area: 2 / 1 / 3 / 21;
+    }
+    component[name="dashboard"] {
+        grid-area: 2 / 1 / 3 / 21;
     }
     connection {
         grid-area: 3 / 1 / 4 / 21;

@@ -4,10 +4,6 @@ import { update } from 'immupdate'
 import { ImportFileState, Remote, factory, importFile } from '../server/importfile'
 import path = require('path');
 
-// TODO: it probably makes sense for us to refactor the loading screen into it's own
-//       module - but I need to figure out a better pattern for intermodule communication
-//       using kaiju. 
-
 //-----------------------------------------------------------------------------------------
 export default function () {
   return Component<Props, State>({

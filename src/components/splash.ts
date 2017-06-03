@@ -10,7 +10,7 @@ import VERSION from '../version'
 //-----------------------------------------------------------------------------------------
 export default function () {
   return Component<Props, State>({
-    name: 'importpgn',
+    name: 'splash',
     props: defaultProps(),
     initState,
     connect,
