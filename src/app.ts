@@ -15,7 +15,7 @@ import splash from './components/splash'
 
 //-----------------------------------------------------------------------------------------
 export default function() {
-	return Component<void, State>({ name: 'app', initState, connect, render })
+	return Component<{}, State>({ name: 'app', initState, connect, render })
 }
 
 //-----------------------------------------------------------------------------------------
@@ -28,14 +28,14 @@ function initState() {
 	return { route: routeStore.state().route }
 }
 
-function connect({ on }: ConnectParams<void, State>) {
+function connect({ on }: ConnectParams<{}, State>) {
   on(routeStore.state, (state, route) => {
 		return update(state, { route: route.route })
 	})
 }
 
 //-----------------------------------------------------------------------------------------
-function render({ state }: RenderParams<void, State>) {
+function render({ state }: RenderParams<{}, State>) {
   function connection() {
     return h("connection", {}, [
       server({url: "ws://127.0.0.1:3012"})

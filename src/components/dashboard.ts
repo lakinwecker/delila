@@ -4,7 +4,7 @@ import { Component, h, ConnectParams, RenderParams } from 'kaiju'
 
 //-----------------------------------------------------------------------------------------
 export default function () {
-  return Component<void, State>({
+  return Component<{}, State>({
     name: 'dashboard',
     initState,
     connect,
@@ -20,11 +20,11 @@ function initState() {
 }
 
 //-----------------------------------------------------------------------------------------
-function connect({ }: ConnectParams<void, State>) {
+function connect({ }: ConnectParams<{}, State>) {
 }
 
 //-----------------------------------------------------------------------------------------
-function render({ }: RenderParams<void, State>) {
+function render({ }: RenderParams<{}, State>) {
 
   return h("dashboard", {}, [
     "Dashboard"

@@ -3,7 +3,7 @@
 // Each OutgoingMessage is simply sending a websocket message.
 //
 // Each IncomingMessage received updates the state of of the store Eezy-peezy
-import { Message } from 'kaiju'
+import { DefaultMessage } from 'kaiju'
 import { update } from 'immupdate'
 import { Store as StoreInterface, RegisterMessages } from 'kaiju/store'
 import Store from 'kaiju/store'
@@ -21,9 +21,9 @@ export abstract class OutgoingMessageInterface<State> {
 //--------------------------------------------------------------------------------------------------
 export class OutgoingMessage<State, Interface> extends OutgoingMessageInterface<State> {
   private name: string
-  private message: Message<Interface>
+  private message: DefaultMessage<Interface>
 
-  constructor(name: string, message: Message<Interface>) {
+  constructor(name: string, message: DefaultMessage<Interface>) {
     super()
     this.name = name
     this.message = message
@@ -47,10 +47,10 @@ export abstract class IncomingMessageInterface<State> {
 //--------------------------------------------------------------------------------------------------
 export class IncomingMessage<State, Interface> extends IncomingMessageInterface<State> {
   private name: string
-  private message: Message<Interface>
+  private message: DefaultMessage<Interface>
 
   //------------------------------------------------------------------------------------------------
-  constructor(name: string, message: Message<Interface>) {
+  constructor(name: string, message: DefaultMessage<Interface>) {
     super()
     this.name = name
     this.message = message
