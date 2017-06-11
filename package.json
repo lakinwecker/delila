@@ -2,9 +2,12 @@
   "name": "delila",
   "version": "0.1.0",
   "description": "A chess user interface intended for study, database creation, browsing and querying.",
-  "main": "public/nw.html",
+  "main": "public/index.html",
   "window": {
     "toolbar": true
+  },
+  "build": {
+    "nwVersion": "0.23.1"
   },
   "jest": {
     "transform": {
@@ -23,7 +26,9 @@
     "build": "NODE_ENV=production webpack",
     "dev": "webpack-dev-server --progress --colors --inline --hot --no-info --content-base public/",
     "test": "standardts && jest",
-    "testnocache": "standardts && jest"
+    "testnocache": "standardts && jest",
+    "dist": "build --tasks win-x86,win-x64,linux-x86,linux-x64,mac-x64 --mirror https://dl.nwjs.io/ .",
+    "start": "run --x64 --mirror https://dl.nwjs.io/ ."
   },
   "dependencies": {
     "abyssa": "^8.0.3",
@@ -49,6 +54,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "jest": "^19.0.2",
     "node-sass": "^4.5.0",
+    "nwjs-builder-phoenix": "^1.14.1",
     "sass-loader": "^6.0.3",
     "source-map-loader": "^0.2.0",
     "standardts": "^1.0.0",
