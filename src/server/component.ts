@@ -1,4 +1,4 @@
-import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
+import { Component, h, VNode,  Message, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
 import { Observable } from 'kaiju/observable'
 import { Connection } from "./connection"
@@ -70,18 +70,21 @@ function connect({ on, msg }: ConnectParams<{}, State>) {
 
 //-----------------------------------------------------------------------------------------
 function render({ state }: RenderParams<Props, State>) {
-  let text = "";
+  let node:VNode = h("span")
   if (state.state == Retrying) {
-    text = "Trying to connect"
+    node = h("span", "Trying to connect")
   } else if (state.state == WaitingToRetry) {
-    text = "Disconnected - will retry in " + state.timeToRetry + "s. Click to force retry"
+    node = h("span", [
+        "Disconnected - will retry in " + state.timeToRetry + "s.",
+        h("a", { events: { click } }, [" (retry now)"])
+    ])
   } else if (state.state == Connected) {
-    text = "Connected"
+    node = h("span", "Connected")
   }
-	return h('a.level-item', { events: { click } }, [
+	return h('span.level-item', [
 		h('i.fa.fa-link'),
-		h('span', text)
-	])
+    node,
+  ])
 }
 
 
