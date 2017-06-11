@@ -29,7 +29,7 @@ export type Remote = RemoteInterface<InitializeState>;
 //--------------------------------------------------------------------------------------------------
 export function factory(): Remote {
   // TODO: get the version number from a config file somewhere
-  let initialState = { version: "0.1.0", activity: "waiting", progress: 0, finished: false }
+  let initialState = { version: "0.1.0", activity: "Connecting", progress: 0, finished: false }
   let remote = new RemoteInterface<InitializeState>(
     initialState,
     [new OutgoingMessage<InitializeState, Version>('initialize::initialize', initialize)],
