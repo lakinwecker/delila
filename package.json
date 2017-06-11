@@ -1,6 +1,6 @@
 {
   "name": "delila",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A chess user interface intended for study, database creation, browsing and querying.",
   "main": "public/nw.html",
   "window": {
@@ -21,7 +21,7 @@
     "watch": "tsc --watch",
     "watchcss": "scss -I node_modules/bulma/ --watch sass/app.scss:public/delila.css",
     "build": "NODE_ENV=production webpack",
-    "dev": "webpack-dev-server --inline --hot --no-info --content-base public/",
+    "dev": "webpack-dev-server --progress --colors --inline --hot --no-info --content-base public/",
     "test": "standardts && jest",
     "testnocache": "standardts && jest"
   },
@@ -39,9 +39,12 @@
   },
   "devDependencies": {
     "@types/jest": "^19.2.1",
-    "awesome-typescript-loader": "^3.1.2",
+    "@types/node": "^7.0.29",
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.4.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1",
     "css-loader": "^0.27.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "jest": "^19.0.2",
@@ -51,9 +54,10 @@
     "standardts": "^1.0.0",
     "style-loader": "^0.13.2",
     "ts-jest": "^19.0.0",
-    "typescript": "^2.2.1",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.1"
+    "ts-loader": "^2.1.0",
+    "typescript": "^2.3.4",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.4.5"
   },
   "repository": {
     "type": "git",

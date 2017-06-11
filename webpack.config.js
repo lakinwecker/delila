@@ -1,14 +1,31 @@
+/* eslint-disable no-var, strict, prefer-arrow-callback */
+'use strict';
+
+const path = require('path');
 const webpack = require('webpack')
 const { resolve } = require('path')
-const { CheckerPlugin } = require('awesome-typescript-loader')
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
+
+var babelOptions = {
+  "presets": [
+    [
+      "es2015",
+      {
+        "modules": false
+      }
+    ],
+    "es2016"
+  ]
+};
 
 const extractSass = new ExtractTextPlugin({
       filename: "[name].[contenthash].css",
       disable: process.env.NODE_ENV === "development"
 });
 module.exports = {
-  entry: './src/main',
+  entry: { 
+    main: './src/main',
+  },
   output: {
     path: resolve(__dirname, 'public'),
     filename: 'main.bundle.js'
@@ -27,9 +44,17 @@ module.exports = {
       })
     },
     {
-      test: /\.tsx?$/,
-      loader: 'awesome-typescript-loader',
-      exclude: /node_modules/
+      test: /\.ts(x)?$/,
+      exclude: /node_modules/,
+      use: [
+        {
+          loader: 'babel-loader',
+          options: babelOptions
+        },
+        {
+          loader: 'ts-loader'
+        }
+      ]
     },
     {
       test: /\.(eot|svg|ttf|woff|woff2|otf)$/,
@@ -51,10 +76,8 @@ module.exports = {
     ? [
       new webpack.optimize.UglifyJsPlugin(),
       extractSass,
-      new CheckerPlugin()
     ]
     : [
       extractSass,
-      new CheckerPlugin()
     ]
 }
