@@ -49,7 +49,7 @@ function connect({ on, msg }: ConnectParams<{}, State>) {
 
 	on(click, () => msg.send(tryReconnect()))
   on(disconnected, state => {
-    let timeout = Math.max(state.timeout * 2, 120);
+    let timeout = Math.min(state.timeout * 2, 120);
     return update(state, { state: WaitingToRetry, timeout: timeout, timeToRetry: timeout })
   })
   on(polling, state => {
