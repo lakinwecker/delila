@@ -1,5 +1,6 @@
 import { Message } from 'kaiju'
 import { Remote as RemoteInterface, OutgoingMessage, IncomingMessage } from "./messages"
+import VERSION from "../version"
 
 //--------------------------------------------------------------------------------------------------
 interface Version {
@@ -28,8 +29,7 @@ export type Remote = RemoteInterface<InitializeState>;
 
 //--------------------------------------------------------------------------------------------------
 export function factory(): Remote {
-  // TODO: get the version number from a config file somewhere
-  let initialState = { version: "0.1.0", activity: "Connecting", progress: 0, finished: false }
+  let initialState = { version: VERSION, activity: "Connecting", progress: 0, finished: false }
   let remote = new RemoteInterface<InitializeState>(
     initialState,
     [new OutgoingMessage<InitializeState, Version>('initialize::initialize', initialize)],
@@ -38,6 +38,5 @@ export function factory(): Remote {
       new IncomingMessage<InitializeState, Finished>('initialize::finished', finished)
     ]
   );
-  console.log(remote.store);
   return remote;
 }
