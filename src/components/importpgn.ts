@@ -1,10 +1,11 @@
+//--------------------------------------------------------------------------------------------------
 // The import PGN modal dialog.
+//--------------------------------------------------------------------------------------------------
 import { Component, h, Message, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
 import { ImportFileState, Remote, factory, importFile } from '../server/importfile'
 import path = require('path');
 
-//-----------------------------------------------------------------------------------------
 export default function () {
   return Component<Props, State>({
     name: 'importpgn',
@@ -15,17 +16,14 @@ export default function () {
   })
 }
 
-//-----------------------------------------------------------------------------------------
 interface Props {
   remoteStore: Remote
 }
 
-//-----------------------------------------------------------------------------------------
 function defaultProps(): Props {
   return { remoteStore: factory() }
 }
  
-//-----------------------------------------------------------------------------------------
 interface State {
   showingSelectFileDialog: boolean,
   showFileImportProgress: boolean,
@@ -47,7 +45,6 @@ function initState() {
   }
 }
 
-//-----------------------------------------------------------------------------------------
 const showModal = Message('showModal')
 const hideFileDialog = Message('hideFileDialog')
 const setFileInput = Message<HTMLInputElement>('setFileInput')
@@ -87,7 +84,6 @@ function connect({ on, props }: ConnectParams<Props, State>) {
   })
 }
 
-//-----------------------------------------------------------------------------------------
 function render({ state, msg }: RenderParams<Props, State>) {
   let fileDialogClass = ""
   if (state.showingSelectFileDialog) {

@@ -1,10 +1,12 @@
-// The import PGN modal dialog.
+//--------------------------------------------------------------------------------------------------
+// The dashboard component.
+//--------------------------------------------------------------------------------------------------
+
 import { Component, h, ConnectParams, Message, RenderParams } from 'kaiju'
 // import { update } from 'immupdate'
 import { navigate, Route } from '../stores/route'
 import routeStore from '../stores/route'
 
-//-----------------------------------------------------------------------------------------
 export default function () {
   return Component<{}, State>({
     name: 'dashboard',
@@ -16,19 +18,16 @@ export default function () {
  
 const showReader = Message('showReader')
 
-//-----------------------------------------------------------------------------------------
 interface State { }
  
 function initState() {
   return {}
 }
 
-//-----------------------------------------------------------------------------------------
 function connect({ on }: ConnectParams<{}, State>) {
   on(showReader, () => routeStore.send(navigate(Route.Reader)))
 }
 
-//-----------------------------------------------------------------------------------------
 function render({ msg }: RenderParams<{}, State>) {
 
   return h("dashboard", {}, [

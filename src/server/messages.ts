@@ -13,12 +13,10 @@ import { Connection } from './connection'
 // TODO: at some point we want this to be as type safe as possible. We can't quite
 //       achieve that yet - but I want it to work like rocket.
 
-//--------------------------------------------------------------------------------------------------
 export abstract class OutgoingMessageInterface<State> {
   abstract listen(on: RegisterMessages<State>, remote: Remote<State>): void;
 }
 
-//--------------------------------------------------------------------------------------------------
 export class OutgoingMessage<State, Interface> extends OutgoingMessageInterface<State> {
   private name: string
   private message: DefaultMessage<Interface>
@@ -38,25 +36,21 @@ export class OutgoingMessage<State, Interface> extends OutgoingMessageInterface<
   }
 }
 
-//--------------------------------------------------------------------------------------------------
 export abstract class IncomingMessageInterface<State> {
   abstract listen(on: RegisterMessages<State>): void;
   abstract register(id: number, connection: Connection, store: StoreInterface<State>): void;
 }
 
-//--------------------------------------------------------------------------------------------------
 export class IncomingMessage<State, Interface> extends IncomingMessageInterface<State> {
   private name: string
   private message: DefaultMessage<Interface>
 
-  //------------------------------------------------------------------------------------------------
   constructor(name: string, message: DefaultMessage<Interface>) {
     super()
     this.name = name
     this.message = message
   }
 
-  //------------------------------------------------------------------------------------------------
   register(id: number, connection: Connection, store: StoreInterface<State>) {
     connection.register(id, this.name, jsonString => {
       // TODO: Do some type based conversion/checking first!!
@@ -64,14 +58,12 @@ export class IncomingMessage<State, Interface> extends IncomingMessageInterface<
     })
   }
 
-  //------------------------------------------------------------------------------------------------
   listen(on: RegisterMessages<State>) {
     on(this.message, (state: State, v: Interface) => update(state, v));
   }
   
 }
 
-//--------------------------------------------------------------------------------------------------
 export class Remote<State> {
   public store: StoreInterface<State>;
   private outgoing: OutgoingMessageInterface<State>[];
@@ -79,7 +71,6 @@ export class Remote<State> {
   private id: number;
   public connection: Connection;
 
-  //------------------------------------------------------------------------------------------------
   constructor(
     initialState: State,
     outgoing: OutgoingMessageInterface<State>[],
@@ -96,7 +87,6 @@ export class Remote<State> {
     this.incoming.forEach((incoming) => incoming.register(this.id, this.connection, this.store));
   }
 
-  //------------------------------------------------------------------------------------------------
   send(name: string, message: string) {
     this.connection.send(this.id, name, message);
   }

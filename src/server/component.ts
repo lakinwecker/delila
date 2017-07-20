@@ -3,7 +3,6 @@ import { update } from 'immupdate'
 import { Observable } from 'kaiju/observable'
 import { Connection } from "./connection"
 
-//-----------------------------------------------------------------------------------------
 // Define our Connection States as a union type with convenience constants.
 type ConnectionState = Connected | Retrying | WaitingToRetry
 type Connected = { type: 'Connected' }
@@ -13,17 +12,14 @@ const Connected: ConnectionState = { type: 'Connected' }
 const Retrying: ConnectionState = { type: 'Retrying' }
 const WaitingToRetry: ConnectionState = { type: 'WaitingToRetry' }
 
-//-----------------------------------------------------------------------------------------
 export default function(props: Props) {
 	return Component<Props, State>({ name: 'server', props, initState, connect, render })
 }
 
-//-----------------------------------------------------------------------------------------
 interface Props {
   url: string
 }
  
-//-----------------------------------------------------------------------------------------
 interface State {
   url: string,
 	state: ConnectionState,
@@ -32,12 +28,10 @@ interface State {
   connection: Connection,
 }
  
-//-----------------------------------------------------------------------------------------
 function initState(initProps: Props) {
 	return { url: initProps.url, state: WaitingToRetry, timeout: 1, connection: Connection.getInstance(), timeToRetry: 0 }
 }
 
-//-----------------------------------------------------------------------------------------
 const click = Message('click')
 const disconnected = Message('disconnected')
 const connected = Message('connected')
@@ -68,7 +62,6 @@ function connect({ on, msg }: ConnectParams<{}, State>) {
 
 }
 
-//-----------------------------------------------------------------------------------------
 function render({ state }: RenderParams<Props, State>) {
   let node:VNode = h("span")
   if (state.state == Retrying) {

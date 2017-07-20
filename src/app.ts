@@ -1,5 +1,7 @@
 //--------------------------------------------------------------------------------------------------
-// The reader component
+// The main application
+//--------------------------------------------------------------------------------------------------
+
 import { Component, h, ConnectParams, RenderParams } from 'kaiju'
 import { update } from 'immupdate'
 
@@ -13,17 +15,14 @@ import reader from './components/reader'
 import server from './server/component'
 import splash from './components/splash'
 
-//-----------------------------------------------------------------------------------------
 export default function() {
 	return Component<{}, State>({ name: 'app', initState, connect, render })
 }
 
-//-----------------------------------------------------------------------------------------
 interface State {
   route: Route
 }
  
-//-----------------------------------------------------------------------------------------
 function initState() {
 	return { route: routeStore.state().route }
 }
@@ -34,7 +33,6 @@ function connect({ on }: ConnectParams<{}, State>) {
 	})
 }
 
-//-----------------------------------------------------------------------------------------
 function render({ state }: RenderParams<{}, State>) {
   function connection() {
     return h("connection", {}, [

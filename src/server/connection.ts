@@ -1,5 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 // A simple WebSocket wrapped in a singleton so that we have a single point of access to the server.
+//--------------------------------------------------------------------------------------------------
 
 interface IncomingMessageCallback { (jsonString: string): void }
 interface CallbackMap {
@@ -15,7 +16,6 @@ export class Connection {
   ws: WebSocket;
   private unsentMessages: Array<Message> = [];
 
-  //------------------------------------------------------------------------------------------------
   public static getInstance(): Connection {
     if (!Connection._instance) {
       Connection._instance = new Connection()
@@ -23,17 +23,14 @@ export class Connection {
     return Connection._instance
   }
 
-  //------------------------------------------------------------------------------------------------
   public static uniqueId(): number {
     return Connection.idSequence += 1
   }
 
-  //------------------------------------------------------------------------------------------------
   constructor() {
     this.callbacks = {};
   }
 
-  //------------------------------------------------------------------------------------------------
   connect(url: string) {
     this.ws = new WebSocket(url)
     this.ws.onopen = () => {
@@ -55,26 +52,21 @@ export class Connection {
     }
   }
 
-  //------------------------------------------------------------------------------------------------
   sendUnsentMessages() {
     var unsentMessages = this.unsentMessages;
     this.unsentMessages = [];
     unsentMessages.forEach((msg) => this.send(msg.id, msg.name, msg.args));
   }
 
-  //------------------------------------------------------------------------------------------------
   onopen() {}
 
-  //------------------------------------------------------------------------------------------------
   onclose() {}
 
-  //------------------------------------------------------------------------------------------------
   register(id: number, methodName: string, callback: IncomingMessageCallback) {
     let key = "" + id + methodName;
     this.callbacks[key] = callback;
   }
 
-  //------------------------------------------------------------------------------------------------
   send(id: number, name: string, args: string) {
     let message = {id: id, name: name, args: args};
     if (!this.ws) {
