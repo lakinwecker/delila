@@ -8,12 +8,6 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 var babelOptions = {
   "presets": [
-    [
-      "es2015",
-      {
-        "modules": false
-      }
-    ],
     "es2016"
   ]
 };

@@ -3,7 +3,7 @@
 // Each OutgoingMessage is simply sending a websocket message.
 //
 // Each IncomingMessage received updates the state of of the store Eezy-peezy
-import { DefaultMessage } from 'kaiju'
+import { Store, DefaultMessage } from 'kaiju'
 import { update } from 'immupdate'
 import { Store as StoreInterface, RegisterMessages } from 'kaiju/store'
 import Store from 'kaiju/store'
@@ -61,7 +61,7 @@ export class IncomingMessage<State, Interface> extends IncomingMessageInterface<
   listen(on: RegisterMessages<State>) {
     on(this.message, (state: State, v: Interface) => update(state, v));
   }
-  
+
 }
 
 export class Remote<State> {

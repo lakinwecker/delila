@@ -1,5 +1,4 @@
-import { Message } from 'kaiju'
-import Store from 'kaiju/store'
+import { Store, Message } from 'kaiju'
 import { update } from 'immupdate'
 
 //-----------------------------------------------------------------------------------------

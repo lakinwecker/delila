@@ -22,7 +22,7 @@ export default function() {
 interface State {
   route: Route
 }
- 
+
 function initState() {
 	return { route: routeStore.state().route }
 }
