@@ -34,12 +34,12 @@ function defaultProps(): Props {
     remoteStore: remoteStore
   }
 }
- 
+
 //-----------------------------------------------------------------------------------------
 interface State {
   remoteState: InitializeState,
 }
- 
+
 function initState() {
   return {
     remoteState: {
@@ -52,9 +52,9 @@ function initState() {
 }
 
 //-----------------------------------------------------------------------------------------
-function connect({ on, props }: ConnectParams<Props, State>) {
-  on(props().remoteStore.store.state, (state, remoteState: InitializeState) => {
-    let newState = update(state, {remoteState: remoteState})
+function connect({ on, props, state }: ConnectParams<Props, State>) {
+  on(props().remoteStore.store.state, (remoteState: InitializeState) => {
+    let newState = update(state(), {remoteState: remoteState})
     if (newState.remoteState.finished) {
       routeStore.send(navigate(Route.Dashboard))
     }

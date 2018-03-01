@@ -20,9 +20,9 @@ interface RouteState {
 const initialState = { route: Route.Splash }
 
 //-----------------------------------------------------------------------------------------
-export default Store<RouteState>(initialState, on => {
-  on(navigate, (state, route) =>
-    update(state, { route: route })
+export default Store<RouteState>(initialState, ({on, state}) => {
+  on(navigate, route =>
+    update(state(), { route: route })
   )
 })
 

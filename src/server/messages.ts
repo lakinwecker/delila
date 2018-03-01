@@ -3,9 +3,9 @@
 // Each OutgoingMessage is simply sending a websocket message.
 //
 // Each IncomingMessage received updates the state of of the store Eezy-peezy
-import { Store, DefaultMessage } from 'kaiju'
+import { Store, Message } from 'kaiju'
 import { update } from 'immupdate'
-import { Store as StoreInterface, RegisterMessages } from 'kaiju/store'
+import { RegisterMessages } from 'kaiju/store'
 //import Store from 'kaiju/store'
 
 import { Connection } from './connection'
@@ -19,9 +19,9 @@ export abstract class OutgoingMessageInterface<State> {
 
 export class OutgoingMessage<State, Interface> extends OutgoingMessageInterface<State> {
   private name: string
-  private message: DefaultMessage<Interface>
+  private message: Message.OnePayload<Interface>
 
-  constructor(name: string, message: DefaultMessage<Interface>) {
+  constructor(name: string, message: Message.OnePayload<Interface>) {
     super()
     this.name = name
     this.message = message
@@ -38,20 +38,20 @@ export class OutgoingMessage<State, Interface> extends OutgoingMessageInterface<
 
 export abstract class IncomingMessageInterface<State> {
   abstract listen(on: RegisterMessages<State>): void;
-  abstract register(id: number, connection: Connection, store: StoreInterface<State>): void;
+  abstract register(id: number, connection: Connection, store: Store<State>): void;
 }
 
 export class IncomingMessage<State, Interface> extends IncomingMessageInterface<State> {
   private name: string
-  private message: DefaultMessage<Interface>
+  private message: Message.OnePayload<Interface>
 
-  constructor(name: string, message: DefaultMessage<Interface>) {
+  constructor(name: string, message: Message.OnePayload<Interface>) {
     super()
     this.name = name
     this.message = message
   }
 
-  register(id: number, connection: Connection, store: StoreInterface<State>) {
+  register(id: number, connection: Connection, store: Store<State>) {
     connection.register(id, this.name, jsonString => {
       // TODO: Do some type based conversion/checking first!!
       store.send(this.message(JSON.parse(jsonString) as Interface));
@@ -65,7 +65,7 @@ export class IncomingMessage<State, Interface> extends IncomingMessageInterface<
 }
 
 export class Remote<State> {
-  public store: StoreInterface<State>;
+  public store: Store<State>;
   private outgoing: OutgoingMessageInterface<State>[];
   private incoming: IncomingMessageInterface<State>[];
   private id: number;

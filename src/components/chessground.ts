@@ -15,7 +15,7 @@ export default function() {
 interface State {
   chessground?: Api
 }
- 
+
 function initState() {
 	return { chessground: undefined }
 }
@@ -23,9 +23,9 @@ function initState() {
 const inserted = Message<Element>('inserted')
 const destroyed = Message('destroyed')
 
-function connect({ on }: ConnectParams<{}, State>) {
-  on(inserted, ( state, elm ) => {
-    state.chessground = Chessground(elm as HTMLElement, {})
+function connect({ on, state }: ConnectParams<{}, State>) {
+  on(inserted, ( elm ) => {
+    state().chessground = Chessground(elm as HTMLElement, {})
   })
 }
 

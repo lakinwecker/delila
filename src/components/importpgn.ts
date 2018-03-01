@@ -23,7 +23,7 @@ interface Props {
 function defaultProps(): Props {
   return { remoteStore: factory() }
 }
- 
+
 interface State {
   showingSelectFileDialog: boolean,
   showFileImportProgress: boolean,
@@ -31,7 +31,7 @@ interface State {
   fileInput?: HTMLInputElement,
   remoteState: ImportFileState,
 }
- 
+
 function initState() {
   return {
     showingSelectFileDialog: false,
@@ -53,34 +53,34 @@ const selectFile = Message<HTMLInputElement>('selectFile')
 const importPgn = Message('importPgn')
 const cancelFileImport = Message('cancelFileImport')
 
-function connect({ on, props }: ConnectParams<Props, State>) {
-  on(showModal, (state) => update(state, {showingSelectFileDialog: true}))
-  on(hideFileDialog, (state) => update(state, {showingSelectFileDialog: false}))
-  on(importPgn, (state) => {
-    props().remoteStore.store.send(importFile({path: state.remoteState.path}));
+function connect({ on, props, state }: ConnectParams<Props, State>) {
+  on(showModal, () => update(state(), {showingSelectFileDialog: true}))
+  on(hideFileDialog, () => update(state(), {showingSelectFileDialog: false}))
+  on(importPgn, () => {
+    props().remoteStore.store.send(importFile({path: state().remoteState.path}));
     // TODO: Unsure why this doesn't reset the progress to zero, should figure it out later.
-    return update(state, {
+    return update(state(), {
       showingSelectFileDialog: false,
       showFileImportProgress: true,
-      remoteState: update(state.remoteState, {activity: "waiting", progress: 0})
+      remoteState: update(state().remoteState, {activity: "waiting", progress: 0})
     })
   })
-  on(cancelFileImport, (state) => update(state, {showFileImportProgress: false}))
-  on(setFileInput, (state, elm: HTMLInputElement) => update(state, {fileInput: elm}))
-  on(showFileDialog, (state) => {
-    if (state.fileInput) {
-      state.fileInput.click()
+  on(cancelFileImport, () => update(state(), {showFileImportProgress: false}))
+  on(setFileInput, (elm: HTMLInputElement) => update(state(), {fileInput: elm}))
+  on(showFileDialog, () => {
+    if (state().fileInput) {
+      state().fileInput!.click()
     }
   })
-  on(selectFile, (state, elm) => {
+  on(selectFile, (elm) => {
     if (elm.files) {
       let file: any = elm.files[0];
       if (!file) return
-      return update(state, {remoteState: update(state.remoteState, {path: file.path})})
+      return update(state(), {remoteState: update(state().remoteState, {path: file.path})})
     }
   })
-  on(props().remoteStore.store.state, (state, remoteState: ImportFileState) => {
-    return update(state, {remoteState: remoteState})
+  on(props().remoteStore.store.state, (remoteState: ImportFileState) => {
+    return update(state(), {remoteState: remoteState})
   })
 }
 

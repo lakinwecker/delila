@@ -27,9 +27,9 @@ function initState() {
 	return { route: routeStore.state().route }
 }
 
-function connect({ on }: ConnectParams<{}, State>) {
-  on(routeStore.state, (state, route) => {
-		return update(state, { route: route.route })
+function connect({ on, state }: ConnectParams<{}, State>) {
+  on(routeStore.state, (route) => {
+		return update(state(), { route: route.route })
 	})
 }
 
