@@ -6,7 +6,7 @@
 import { Store, DefaultMessage } from 'kaiju'
 import { update } from 'immupdate'
 import { Store as StoreInterface, RegisterMessages } from 'kaiju/store'
-import Store from 'kaiju/store'
+//import Store from 'kaiju/store'
 
 import { Connection } from './connection'
 
