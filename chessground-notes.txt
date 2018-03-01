@@ -1,0 +1,12 @@
+joelq [9:42 AM] 
+It's a bit tricky because you're mutating DOM that is owned by Elm and are breaking some of the assumptions that the virtual dom engine expects
+
+
+[9:42] 
+It can be done though. There's a few pieces to this:
+1. Create a DOM node with an id in your `view`
+2. Use `Html.Keyed` to make sure Elm doesn't re-render it and wipe your widget.
+3. Use a port to send the id to some JS and tell it to embed at the time you want the widget to show up (this could be in your `init` or later on in the `update`)
+4. You may want to wrap the JS code in `requestAnimationFrame` to sync it up to Elm's render-loop
+
+https://robots.thoughtbot.com/bridging-elm-and-javascript-with-ports

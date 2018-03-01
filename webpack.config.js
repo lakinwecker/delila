@@ -2,76 +2,45 @@
 'use strict';
 
 const path = require('path');
-const webpack = require('webpack')
 const { resolve } = require('path')
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
-var babelOptions = {
-  "presets": [
-    "es2016"
-  ]
-};
-
-const extractSass = new ExtractTextPlugin({
-      filename: "[name].[contenthash].css",
-      disable: process.env.NODE_ENV === "development"
-});
 module.exports = {
-  entry: { 
-    main: './src/main',
+  entry: {
+    main: './public/index.js',
   },
   output: {
     path: resolve(__dirname, 'public'),
-    filename: 'main.bundle.js'
+    filename: 'app.dist.js'
   },
   module: {
-    rules: [{
-      test: /\.scss$/,
-      use: extractSass.extract({
-        use: [{
-          loader: "css-loader"
-        }, {
-          loader: "sass-loader"
-        }],
-        // use style-loader in development
-        fallback: "style-loader"
-      })
-    },
-    {
-      test: /\.ts(x)?$/,
-      exclude: /node_modules/,
-      use: [
-        {
-          loader: 'babel-loader',
-          options: babelOptions
-        },
-        {
-          loader: 'ts-loader'
-        }
-      ]
-    },
-    {
-      test: /\.(eot|svg|ttf|woff|woff2|otf)$/,
-      loader: 'file?name=public/fonts/[name].[ext]'
-    }]
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          "sass-loader"
+        ]
+      },
+      {
+        test:    /\.html$/,
+        exclude: /node_modules/,
+        loader:  'file-loader?name=[name].[ext]',
+      },
+      {
+        test:    /\.elm$/,
+        exclude: [/elm-stuff/, /node_modules/],
+        loader:  'elm-webpack-loader?verbose=true&warn=true',
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|otf)$/,
+        loader: 'file?name=public/fonts/[name].[ext]'
+      }
+    ],
+    noParse: /\.elm$/,
   },
-  resolve: {
-    extensions: [
-      '*',
-      '.js',
-      '.ts',
-      '.tsx',
-      '.jsx',
-      '.scss'
-    ]
+  devServer: {
+    inline: true,
+    stats: { colors: true },
   },
-  devtool: 'source-map',
-  plugins: process.env.NODE_ENV === 'production'
-    ? [
-      new webpack.optimize.UglifyJsPlugin(),
-      extractSass,
-    ]
-    : [
-      extractSass,
-    ]
 }

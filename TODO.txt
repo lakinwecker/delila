@@ -1,5 +1,0 @@
-* UCI engine pass through + UI (parsing based on lila code)
-* Chessground instatiation + display
-* Chess game in memory representation
-* Move navigation.
-* CSS + fonts webpack integration
