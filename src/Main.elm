@@ -1,70 +1,68 @@
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import WebSocket
+module Main exposing (..)
 
-
-main =
-  Html.program
-    { init = init
-    , view = view
-    , update = update
-    , subscriptions = subscriptions
-    }
+import Html exposing (Html, div, text, program)
 
 
 -- MODEL
 
+
 type alias Model =
-  { input : String
-  , messages : List String
-  }
+    String
 
 
-init : (Model, Cmd Msg)
+init : ( Model, Cmd Msg )
 init =
-  (Model "" [], Cmd.none)
+    ( "Hello", Cmd.none )
 
 
--- UPDATE
+
+-- MESSAGES
+
 
 type Msg
-  = Input String
-  | Send
-  | NewMessage String
+    = NoOp
 
-
-update : Msg -> Model -> (Model, Cmd Msg)
-update msg {input, messages} =
-  case msg of
-    Input newInput ->
-      (Model newInput messages, Cmd.none)
-
-    Send ->
-      (Model "" messages, WebSocket.send "ws://echo.websocket.org" input)
-
-    NewMessage str ->
-      (Model input (str :: messages), Cmd.none)
-
-
--- SUBSCRIPTIONS
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-  WebSocket.listen "ws://echo.websocket.org" NewMessage
 
 
 -- VIEW
 
+
 view : Model -> Html Msg
 view model =
-  div []
-    [ div [] (List.map viewMessage model.messages)
-    , input [onInput Input] []
-    , button [onClick Send] [text "Send"]
-    ]
+    div []
+        [ text model ]
 
 
-viewMessage : String -> Html msg
-viewMessage msg =
-  div [] [ text msg ]
+
+-- UPDATE
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
+
+
+-- MAIN
+
+
+main : Program Never Model Msg
+main =
+    program
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        }
+

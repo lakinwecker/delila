@@ -6,16 +6,16 @@ const { resolve } = require('path')
 
 module.exports = {
   entry: {
-    main: './public/index.js',
+    main: './src/index.js',
   },
   output: {
     path: resolve(__dirname, 'public'),
-    filename: 'app.dist.js'
+    filename: '[name].js'
   },
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.(css|scss)$/,
         use: [
           "style-loader",
           "css-loader",
@@ -33,8 +33,12 @@ module.exports = {
         loader:  'elm-webpack-loader?verbose=true&warn=true',
       },
       {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff',
+      },
+      {
         test: /\.(eot|svg|ttf|woff|woff2|otf)$/,
-        loader: 'file?name=public/fonts/[name].[ext]'
+        loader: 'file-loader?name=public/fonts/[name].[ext]'
       }
     ],
     noParse: /\.elm$/,
