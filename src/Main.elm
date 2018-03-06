@@ -11,9 +11,6 @@ import Data.Session exposing (Session)
 type Page
     = Blank
     | NotFound
-
-
-
 --| Errored PageLoadError
 --| Home Home.Model
 --| Settings Settings.Model

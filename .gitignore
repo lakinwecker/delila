@@ -1,6 +1,8 @@
 node_modules
 /node_modules/
 /public/main.bundle.js
+/public/main.bundle.js.map
 /public/delila.css.map
 /.sass-cache/
 npm-debug.log
+elm-stuff
