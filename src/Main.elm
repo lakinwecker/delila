@@ -1,18 +1,47 @@
 module Main exposing (..)
 
 import Html exposing (Html, div, text, program)
+import Page.NotFound as NotFound
+import Data.Session exposing (Session)
 
 
 -- MODEL
 
 
+type Page
+    = Blank
+    | NotFound
+
+
+
+--| Errored PageLoadError
+--| Home Home.Model
+--| Settings Settings.Model
+--| Login Login.Model
+--| Register Register.Model
+--| Profile Username Profile.Model
+--| Article Article.Model
+--| Editor (Maybe Slug) Editor.Model
+
+
+type PageState
+    = Loaded Page
+    | TransitioningFrom Page
+
+
 type alias Model =
-    String
+    { session : Session
+    , pageState : PageState
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( "Hello", Cmd.none )
+    ( { session = Session Nothing
+      , pageState = Loaded NotFound
+      }
+    , Cmd.none
+    )
 
 
 
@@ -30,7 +59,7 @@ type Msg
 view : Model -> Html Msg
 view model =
     div []
-        [ text model ]
+        [ text "Lakin" ]
 
 
 
@@ -65,4 +94,3 @@ main =
         , update = update
         , subscriptions = subscriptions
         }
-
