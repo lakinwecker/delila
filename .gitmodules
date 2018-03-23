@@ -1,3 +1,6 @@
 [submodule "lib/lila"]
 	path = lib/lila
 	url = https://github.com/ornicar/lila.git
+[submodule "websocket"]
+	path = websocket
+	url = git@github.com:lakinwecker/websocket.git
